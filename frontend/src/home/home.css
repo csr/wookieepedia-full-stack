@@ -53,6 +53,7 @@
     flex-direction: column;
     flex: 1 1 auto; /* Take up remaining space */
     overflow: auto;
-    padding: 1rem
+    padding: 1rem;
+    gap: 1rem;
 }
   
