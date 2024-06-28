@@ -10,3 +10,16 @@ html, body {
   font-family: 'Trebuchet MS', sans-serif;
   height: 100%;
 }
+
+.star {
+  position: absolute;
+  background: white;
+  border-radius: 50%;
+  box-shadow: 0 0 5px white;
+  animation: twinkle 2s infinite;
+}
+
+@keyframes twinkle {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.5; }
+}

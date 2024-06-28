@@ -18,6 +18,7 @@ const SearchBar = (props: SearchBarProps) => {
       onChange={onChange}
       variant="outlined"
       placeholder={placeholder || 'Search...'}
+      style={{ backgroundColor: '#161b22' }}
       InputProps={{
         startAdornment: (
           <InputAdornment position="start">

@@ -46,6 +46,7 @@ export default function DataTable() {
       <DataGrid
         rows={rows}
         columns={columns}
+        style={{ backgroundColor: '#0E1117' }}
         initialState={{
           pagination: {
             paginationModel: { page: 0, pageSize: 15 },
