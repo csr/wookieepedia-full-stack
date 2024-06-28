@@ -1,8 +1,9 @@
 import DataTable from '../table/table';
+import './home.css';
 
 const Home = () => {
   return (
-    <div>
+    <div className="container">
       <header>
         <h1 className="star-wars-logo">WOOKIEEPEDIA</h1>
         <nav className="nav-bar">

@@ -1,63 +1,13 @@
-@font-face {
-  font-family: 'Star Wars';
-  font-style: normal;
-  font-weight: 400;
-  src: local('Star Wars'), url('https://fonts.cdnfonts.com/s/88396/Star Wars.woff') format('woff');
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
 }
 
-body {
+html, body {
   background-color: #000; /* Black background to match the Star Wars theme */
   color: #fff; /* White text color for contrast */
   font-family: 'Trebuchet MS', sans-serif; /* Fallback font */
-  margin: 0;
-  height: 100vh;
-  display: flex;
-  flex-direction: column;
-}
-
-header {
-  text-align: center;
-}
-
-.star-wars-logo {
-  font-family: "Poller One", serif;
-  font-weight: 400;
-  font-style: normal;
-  color: #ffd700; /* Gold color for the logo */
-  text-shadow: 2px 2px 5px #000; /* Add some shadow for depth */
-  font-size: 2.5em;
-}
-
-.nav-bar {
-  border-bottom: 0.1px solid dimgray; /* White separation line */
-  margin-top: 10px;
-  padding-bottom: 1rem;
-}
-
-.nav-bar ul {
-  list-style-type: none;
-  margin: 0;
-  padding: 0;
-  display: flex;
-  justify-content: center;
-}
-
-.nav-bar li {
-  margin: 0 15px;
-}
-
-.nav-bar a {
-  text-decoration: none;
-  color: darkgray; /* White text color */
-  font-size: 1rem;
-  transition: color 0.3s;
-}
-
-.nav-bar a:hover {
-  color: #ffd700; /* Gold color on hover */
-}
-
-.app-container {
-  display: flex;
-  flex-direction: column;
+  height: 100%;
+  background-color: blue;
 }

@@ -1,0 +1,58 @@
+.container {
+    display: flex;
+    flex-direction: column;
+    height: 100vh;
+}
+
+.header {
+    flex: 0 0 auto; /* Fixed height based on content */
+    background-color: red;
+}
+
+.star-wars-logo {
+    font-family: "Poller One", serif;
+    font-weight: 400;
+    font-style: normal;
+    color: #ffd700;
+    font-size: 2.5em;
+    text-align: center;
+    padding: 1rem;
+}
+
+.nav-bar {
+    border-bottom: 0.1px solid dimgray; /* White separation line */
+    margin-top: 10px;
+    padding-bottom: 1rem;
+  }
+  
+.nav-bar ul {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    justify-content: center;
+}
+  
+.nav-bar li {
+    margin: 0 15px;
+}
+  
+.nav-bar a {
+    text-decoration: none;
+    color: darkgray; /* White text color */
+    font-size: 1rem;
+    transition: color 0.3s;
+}
+  
+.nav-bar a:hover {
+    color: #ffd700; /* Gold color on hover */
+}
+  
+.main-content {
+    display: flex;
+    flex-direction: column;
+    flex: 1 1 auto; /* Take up remaining space */
+    overflow: auto;
+    padding: 1rem
+}
+  
