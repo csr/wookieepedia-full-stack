@@ -36,35 +36,35 @@ docker login
 ## Running the tests
 ...
 
-## Extra tips
+## Do you want to build the Docker images one by one?
 
-You can build and run Docker containers one by one. Let us first navigate to the frontend project:
+This step is not necessary because Docker Compose will automatically build and start all the Docker containers for you. However, you can build and run Docker containers one by one if you so decide (useful if you want to try out changes in a single `Dockerfile` file or want to test just the frontend or backend). Let us first navigate to the frontend project:
 
 ```bash
 cd frontend
 ```
 
-Let's build the image:
+Let's build the image and assign the `frontend` tag to it:
 
 ```bash
 docker build -t frontend .
 ```
 
-And now it's time to run it:
+Once that is done we can run it:
 
 ```bash
 docker run -p 6969:3000 frontend
 ```
 
-It will be available on http://localost:6969.
+Open http://localost:6969 and have fun interacting with Wookieepedia!
 
-The following command
+You can run the following command to see a list of the running containers on your machine:
 
 ```bash
 docker ps
 ```
 
-will show you if the container is running. You can kill it by copying the container ID:
+You can kill it by indicating the container ID:
 
 ```bash
 docker stop <container_id_here>
