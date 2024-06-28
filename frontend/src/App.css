@@ -1,0 +1,55 @@
+@font-face {
+  font-family: 'Star Wars';
+  font-style: normal;
+  font-weight: 400;
+  src: local('Star Wars'), url('https://fonts.cdnfonts.com/s/88396/Star Wars.woff') format('woff');
+}
+
+body {
+  background-color: #000; /* Black background to match the Star Wars theme */
+  color: #fff; /* White text color for contrast */
+  font-family: 'Trebuchet MS', sans-serif; /* Fallback font */
+}
+
+header {
+  text-align: center;
+}
+
+.star-wars-logo {
+  font-family: "Poller One", serif;
+  font-weight: 400;
+  font-style: normal;
+  color: #ffd700; /* Gold color for the logo */
+  text-shadow: 2px 2px 5px #000; /* Add some shadow for depth */
+  font-size: 2.5em;
+}
+
+.nav-bar {
+  background-color: #000; /* Black background */
+  border-bottom: 1px solid gray; /* White separation line */
+  margin-top: 10px;
+  padding-bottom: 1rem;
+}
+
+.nav-bar ul {
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  justify-content: center;
+}
+
+.nav-bar li {
+  margin: 0 15px;
+}
+
+.nav-bar a {
+  text-decoration: none;
+  color: #fff; /* White text color */
+  font-size: 1.2rem;
+  transition: color 0.3s;
+}
+
+.nav-bar a:hover {
+  color: #ffd700; /* Gold color on hover */
+}
