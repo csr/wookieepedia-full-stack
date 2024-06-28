@@ -58,6 +58,18 @@ docker run -p 6969:3000 frontend
 
 It will be available on http://localost:6969.
 
+The following command
+
+```bash
+docker ps
+```
+
+will show you if the container is running. You can kill it by copying the container ID:
+
+```bash
+docker stop <container_id_here>
+```
+
 ## Behind the scenes
 
 We make the assumption that the [swapi](https://swapi.dev/) data will not change often. After all, it's not every day that a new Star Wars movie comes out. We can therefore save the entire dataset in the backend application and then serve from that dataset. This way our backend application can handle a lot of traffic and more tan the [10,000 request per day](https://swapi.dev/documentation#rate) supported by the [swapi](https://swapi.dev/).
