@@ -9,6 +9,10 @@ body {
   background-color: #000; /* Black background to match the Star Wars theme */
   color: #fff; /* White text color for contrast */
   font-family: 'Trebuchet MS', sans-serif; /* Fallback font */
+  margin: 0;
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
 }
 
 header {
@@ -25,8 +29,7 @@ header {
 }
 
 .nav-bar {
-  background-color: #000; /* Black background */
-  border-bottom: 1px solid gray; /* White separation line */
+  border-bottom: 0.1px solid dimgray; /* White separation line */
   margin-top: 10px;
   padding-bottom: 1rem;
 }
@@ -45,11 +48,16 @@ header {
 
 .nav-bar a {
   text-decoration: none;
-  color: #fff; /* White text color */
-  font-size: 1.2rem;
+  color: darkgray; /* White text color */
+  font-size: 1rem;
   transition: color 0.3s;
 }
 
 .nav-bar a:hover {
   color: #ffd700; /* Gold color on hover */
+}
+
+.app-container {
+  display: flex;
+  flex-direction: column;
 }

@@ -1,19 +1,20 @@
-import React, { useState } from 'react';
 import './App.css';
+import { ThemeProvider, createTheme } from '@mui/material/styles';
+import CssBaseline from '@mui/material/CssBaseline';
+import Home from './home/home';
+
+const darkTheme = createTheme({
+  palette: {
+    mode: 'dark',
+  },
+});
 
 function App() {
   return (
-    <div>
-      <header>
-        <h1 className="star-wars-logo">WOOKIEEPEDIA</h1>
-        <nav className="nav-bar">
-          <ul>
-            <li><a href="#">PEOPLE</a></li>
-            <li><a href="#">PLANETS</a></li>
-          </ul>
-        </nav>
-      </header>
-    </div>
+    <ThemeProvider theme={darkTheme}>
+      <CssBaseline />
+      <Home />
+    </ThemeProvider>
   );
 }
 
