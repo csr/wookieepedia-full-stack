@@ -5,14 +5,14 @@ const Home = () => {
   return (
     <div className="container">
       <header>
-        <h1 className="star-wars-logo">WOOKIEEPEDIA</h1>
+        <h1 className="star-wars-logo"> WOOKIEEPEDIA</h1>
         <nav className="nav-bar">
           <ul>
             <li>
-              <a href="#">PEOPLE</a>
+              <a href="#">🤖 PEOPLE</a>
             </li>
             <li>
-              <a href="#">PLANETS</a>
+              <a href="#">🪐 PLANETS</a>
             </li>
           </ul>
         </nav>

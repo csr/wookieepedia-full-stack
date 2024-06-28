@@ -5,9 +5,8 @@
 }
 
 html, body {
-  background-color: #000; /* Black background to match the Star Wars theme */
-  color: #fff; /* White text color for contrast */
-  font-family: 'Trebuchet MS', sans-serif; /* Fallback font */
+  background-color: #000;
+  color: #fff;
+  font-family: 'Trebuchet MS', sans-serif;
   height: 100%;
-  background-color: blue;
 }

@@ -52,7 +52,6 @@ export default function DataTable() {
           },
         }}
         pageSizeOptions={[15]}
-        checkboxSelection
       />
     </div>
   );
