@@ -1,4 +1,4 @@
-# wookieepedia-full-stack
+# Wookieepedia! 🌌🔫
 
 ## Welcome in!
 
