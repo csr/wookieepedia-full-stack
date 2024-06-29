@@ -1,49 +1,121 @@
 import { DataGrid, GridColDef } from '@mui/x-data-grid';
+import people from 'swapi-people.json';
 
 const columns: GridColDef[] = [
-  { field: 'id', headerName: 'ID', width: 70 },
-  { field: 'firstName', headerName: 'First name', width: 130 },
-  { field: 'lastName', headerName: 'Last name', width: 130 },
   {
-    field: 'age',
-    headerName: 'Age',
-    type: 'number',
-    width: 90,
+    field: 'name',
+    headerName: 'Name',
+    description: 'The name of the character.',
+    sortable: true,
+    width: 150,
   },
   {
-    field: 'fullName',
-    headerName: 'Full name',
-    description: 'This column has a value getter and is not sortable.',
+    field: 'height',
+    headerName: 'Height',
+    description: 'The height of the character in centimeters.',
     sortable: false,
-    width: 160,
-    valueGetter: (value, row) => `${row.firstName || ''} ${row.lastName || ''}`,
+    width: 150,
+  },
+  {
+    field: 'mass',
+    headerName: 'Mass',
+    description: 'The mass of the character in kilograms.',
+    sortable: false,
+    width: 150,
+  },
+  {
+    field: 'hair_color',
+    headerName: 'Hair Color',
+    description: "The color of the character's hair.",
+    sortable: false,
+    width: 150,
+  },
+  {
+    field: 'skin_color',
+    headerName: 'Skin Color',
+    description: "The color of the character's skin.",
+    sortable: false,
+    width: 150,
+  },
+  {
+    field: 'eye_color',
+    headerName: 'Eye Color',
+    description: "The color of the character's eyes.",
+    sortable: false,
+    width: 150,
+  },
+  {
+    field: 'birth_year',
+    headerName: 'Birth Year',
+    description: 'The birth year of the character.',
+    sortable: false,
+    width: 150,
+  },
+  {
+    field: 'gender',
+    headerName: 'Gender',
+    description: 'The gender of the character.',
+    sortable: false,
+    width: 150,
+  },
+  {
+    field: 'homeworld',
+    headerName: 'Homeworld',
+    description: "The URL of the character's homeworld.",
+    sortable: false, // Assuming it's not directly sortable
+    width: 150,
+  },
+  {
+    field: 'films',
+    headerName: 'Films',
+    description: 'The URLs of the films the character appears in.',
+    sortable: false, // Assuming it's not directly sortable
+    width: 150,
+  },
+  {
+    field: 'vehicles',
+    headerName: 'Vehicles',
+    description: 'The URLs of the vehicles the character owns.',
+    sortable: false, // Assuming it's not directly sortable
+    width: 150,
+  },
+  {
+    field: 'starships',
+    headerName: 'Starships',
+    description: 'The URLs of the starships the character owns.',
+    sortable: false, // Assuming it's not directly sortable
+    width: 150,
+  },
+  {
+    field: 'created',
+    headerName: 'Created',
+    description: 'The date and time the character entry was created.',
+    sortable: true,
+    width: 150,
+  },
+  {
+    field: 'edited',
+    headerName: 'Edited',
+    description: 'The date and time the character entry was last edited.',
+    sortable: false,
+    width: 150,
+  },
+  {
+    field: 'url',
+    headerName: 'URL',
+    description: 'The URL of the character resource.',
+    sortable: false, // Assuming it's not directly sortable
+    width: 150,
   },
 ];
 
-const rows = [
-  { id: 1, lastName: 'Snow', firstName: 'Jon', age: 35 },
-  { id: 2, lastName: 'Lannister', firstName: 'Cersei', age: 42 },
-  { id: 3, lastName: 'Lannister', firstName: 'Jaime', age: 45 },
-  { id: 4, lastName: 'Stark', firstName: 'Arya', age: 16 },
-  { id: 5, lastName: 'Targaryen', firstName: 'Daenerys', age: null },
-  { id: 6, lastName: 'Melisandre', firstName: null, age: 150 },
-  { id: 7, lastName: 'Clifford', firstName: 'Ferrara', age: 44 },
-  { id: 8, lastName: 'Frances', firstName: 'Rossini', age: 36 },
-  { id: 9, lastName: 'Roxie', firstName: 'Harvey', age: 65 },
-  { id: 10, lastName: 'Lannister', firstName: 'Cersei', age: 42 },
-  { id: 11, lastName: 'Lannister', firstName: 'Jaime', age: 45 },
-  { id: 12, lastName: 'Stark', firstName: 'Arya', age: 16 },
-  { id: 13, lastName: 'Targaryen', firstName: 'Daenerys', age: null },
-  { id: 14, lastName: 'Lannister', firstName: 'Cersei', age: 42 },
-  { id: 15, lastName: 'Lannister', firstName: 'Jaime', age: 45 },
-  { id: 16, lastName: 'Stark', firstName: 'Arya', age: 16 },
-  { id: 17, lastName: 'Targaryen', firstName: 'Daenerys', age: null },
-];
+const rows = people.results;
 
 export const DataTable = () => {
   return (
     <DataGrid
       rows={rows}
+      getRowId={row => row.url}
       columns={columns}
       style={{ backgroundColor: '#0E1117' }}
       initialState={{
