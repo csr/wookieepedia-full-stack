@@ -42,18 +42,16 @@ const rows = [
 
 export const DataTable = () => {
   return (
-    <div style={{ height: '100%', width: '100%' }}>
-      <DataGrid
-        rows={rows}
-        columns={columns}
-        style={{ backgroundColor: '#0E1117' }}
-        initialState={{
-          pagination: {
-            paginationModel: { page: 0, pageSize: 15 },
-          },
-        }}
-        pageSizeOptions={[15]}
-      />
-    </div>
+    <DataGrid
+      rows={rows}
+      columns={columns}
+      style={{ backgroundColor: '#0E1117' }}
+      initialState={{
+        pagination: {
+          paginationModel: { page: 0, pageSize: 15 },
+        },
+      }}
+      pageSizeOptions={[15]}
+    />
   );
 };

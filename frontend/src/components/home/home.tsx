@@ -29,7 +29,7 @@ const Home = () => {
           </Tabs>
         </Box>
       </header>
-      <main className="main-content">
+      <main>
         {currentTabId === 0 && (
           <>
             <SearchBar
@@ -47,7 +47,7 @@ const Home = () => {
               onChange={handleSearchChange}
               placeholder="Search planets..."
             />
-            <div>Planets will go here.</div>
+            <DataTable />
           </>
         )}
       </main>
