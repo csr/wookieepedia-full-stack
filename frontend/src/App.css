@@ -8,6 +8,9 @@ html, body {
   background-color: #000;
   color: #fff;
   font-family: 'Trebuchet MS', sans-serif;
+  margin: 0;
+  height: 100vh;
+  overflow: hidden;
 }
 
 .star {
