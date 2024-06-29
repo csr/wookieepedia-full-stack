@@ -5,6 +5,7 @@ import Tab from '@mui/material/Tab';
 import { DataTable } from '@/components/table';
 import { SearchBar } from '@/components/search-bar';
 import './home.css';
+import { TableDataType } from '@/components/table';
 
 const Home = () => {
   const [searchTerm, setSearchTerm] = useState<string>('');
@@ -37,7 +38,7 @@ const Home = () => {
               onChange={handleSearchChange}
               placeholder="Search people..."
             />
-            <DataTable />
+            <DataTable type={TableDataType.People} />
           </>
         )}
         {currentTabId === 1 && (
@@ -47,7 +48,7 @@ const Home = () => {
               onChange={handleSearchChange}
               placeholder="Search planets..."
             />
-            <DataTable />
+            <DataTable type={TableDataType.Planets} />
           </>
         )}
       </main>
