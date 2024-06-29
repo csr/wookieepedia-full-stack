@@ -89,6 +89,12 @@ These are the disadvantages:
 * The backend application will need to make several requests (around 20) when it starts up to collect the data. However, once the data is collected and saved to the disk space, the backend application will no longer make any request to the Star Wars API.
 * The backend application will fetch the data solely at startup time. This means that if new data is available in the API the backend application will still serve old data. While this isn't ideal, we make the assumption that the [swapi](https://swapi.dev/) data will not change often. After all, it's not every day that a new Star Wars movie comes out. With modern technologies like Kubernetes it can be easy to create more instances of the application to refresh the data.
 
+## Future improvements
+The frontend application should be relatively easy to use. However, there are several things that we can do:
+* Provide more user-friendly information in some table rows. `https://swapi.dev/api/films/1/,https://swapi.dev/api/films/2/,https...` isn't very readable. The API could fill in these fields with the actual names of the movies. The `created` field (`2014-12-09T13:50:51.644000Z`) could show user-friendly data (`December 9, 2014`).
+* Accessibility: ensure the application is fully accessible by testing it with a screen reader.
+* Loading state / error notifications.
+
 ## License
 
 This project is licensed under the terms of the MIT license.
