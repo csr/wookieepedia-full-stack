@@ -6,6 +6,9 @@ import Home from './components/home/home';
 const darkTheme = createTheme({
   palette: {
     mode: 'dark',
+    primary: {
+      main: '#ffd700', // gold accent, very Star Wars-y :)
+    },
   },
 });
 
