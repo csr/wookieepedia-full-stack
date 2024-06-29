@@ -1,4 +1,3 @@
-// SearchBar.js
 import React from 'react';
 import { TextField, InputAdornment } from '@mui/material';
 import SearchIcon from '@mui/icons-material/Search';
@@ -9,7 +8,7 @@ interface SearchBarProps {
   placeholder?: string;
 }
 
-const SearchBar = (props: SearchBarProps) => {
+export const SearchBar: React.FC<SearchBarProps> = props => {
   const { value, onChange, placeholder } = props;
 
   return (
@@ -30,5 +29,3 @@ const SearchBar = (props: SearchBarProps) => {
     />
   );
 };
-
-export default SearchBar;

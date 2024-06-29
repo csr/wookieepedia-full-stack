@@ -2,18 +2,17 @@ import { useState } from 'react';
 import Box from '@mui/material/Box';
 import Tabs from '@mui/material/Tabs';
 import Tab from '@mui/material/Tab';
-import SearchBar from '../search-bar/search-bar';
-import DataTable from '../table/table';
+import { DataTable } from '@/components/table';
+import { SearchBar } from '@/components/search-bar';
 import './home.css';
 
 const Home = () => {
-  const [searchTerm, setSearchTerm] = useState('');
+  const [searchTerm, setSearchTerm] = useState<string>('');
+  const [currentTabId, setCurrentTabId] = useState(0);
 
   const handleSearchChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setSearchTerm(event.target.value);
   };
-
-  const [currentTabId, setCurrentTabId] = useState(0);
 
   const handleTabChange = (event: React.SyntheticEvent, newValue: number) => {
     setCurrentTabId(newValue);
@@ -38,7 +37,7 @@ const Home = () => {
               onChange={handleSearchChange}
               placeholder="Search people..."
             />
-            <DataTable /> {/* People Data Table */}
+            <DataTable />
           </>
         )}
         {currentTabId === 1 && (
