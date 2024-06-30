@@ -93,7 +93,7 @@ The frontend application should be relatively easy to use. However, there are se
 * Provide more user-friendly information in some table rows. `https://swapi.dev/api/films/1/,https://swapi.dev/api/films/2/,https...` isn't very readable. The API could fill in these fields with the actual names of the movies. The `created` field (`2014-12-09T13:50:51.644000Z`) could show user-friendly data (`December 9, 2014`). The homeworld information can be replaced with the actual planet name instead of the API URL.
 * Accessibility: ensure the application is fully accessible by testing it with a screen reader.
 * Loading state / error notifications.
-* Testing it with a real user: we should conduct an interview with a Star War fun to see what they think about the app and if they find it easy to use.
+* Testing it with a real user: we should conduct an interview with a Star Wars fun to see what they think about the app and if they find it easy to use.
 
 ## License
 
