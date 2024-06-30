@@ -1,10 +1,8 @@
 # Wookieepedia! 🌌🔫
 
-## Welcome in!
+## Welcome, Star Wars fan!
 
-Welcome, Star War fan! We're so excited to have you here. May the _code_ be with you as you navigate through the project! 
-
-Wookieepedia! is a full-stack project divided into two applications:
+We're so excited to have you here. May the _code_ be with you as you navigate through the project. Wookieepedia! is a full-stack project divided into two applications:
 
 * A frontend React application written with TypeScript.
 * A backend application written with Java and using the XYZ library.
@@ -18,19 +16,20 @@ First off, ensure you have Docker installed. You can either download [Docker Des
 Let's clone the project:
 
 ```bash
-git clone https://github.com/csr/wookieepedia-full-stack.git
+$ git clone https://github.com/csr/wookieepedia-full-stack.git
+cd wookieepedia-full-stack
 ```
 
 The `docker-compose.yml` file helps you run both the frontend and backend applications at the same time.
 
 ```bash
-docker compose up
+$ docker compose up
 ```
 
 If you're getting some authentication error you may first need to 
 
 ```bash
-docker login
+$ docker login
 ```
 
 ## Running the tests
@@ -41,19 +40,19 @@ docker login
 This step is not necessary because Docker Compose will automatically build and start all the Docker containers for you. However, you can build and run Docker containers one by one if you so decide (useful if you want to try out changes in a single `Dockerfile` file or want to test just the frontend or backend). Let us first navigate to the frontend project:
 
 ```bash
-cd frontend
+$ cd frontend
 ```
 
 Let's build the image and assign the `frontend` tag to it:
 
 ```bash
-docker build -t frontend .
+$ docker build -t frontend .
 ```
 
 Once that is done we can run it:
 
 ```bash
-docker run -p 6969:3000 frontend
+$ docker run -p 6969:3000 frontend
 ```
 
 Open http://localost:6969 and have fun interacting with Wookieepedia!
@@ -61,13 +60,13 @@ Open http://localost:6969 and have fun interacting with Wookieepedia!
 You can run the following command to see a list of the running containers on your machine:
 
 ```bash
-docker ps
+$ docker ps
 ```
 
 You can kill it by indicating the container ID:
 
 ```bash
-docker stop <container_id_here>
+$ docker stop <container_id_here>
 ```
 
 ## Architecture Design
