@@ -24,7 +24,7 @@ git clone https://github.com/csr/wookieepedia-full-stack.git
 The `docker-compose.yml` file helps you run both the frontend and backend applications at the same time.
 
 ```bash
-docker-compose up
+docker compose up
 ```
 
 If you're getting some authentication error you may first need to 
