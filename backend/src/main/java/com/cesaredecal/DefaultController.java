@@ -23,6 +23,11 @@ public class DefaultController {
         return jsonFileService.readJsonFile("people_metadata.json");
     }
 
+    @Get(value = "/people/data", produces = MediaType.APPLICATION_JSON)
+    public String getPeopleTableData() throws IOException {
+        return jsonFileService.readJsonFile("people_data.json");
+    }
+
     @Get(value = "/planets/columns", produces = MediaType.APPLICATION_JSON)
     public String getPlanetsTableColumns() throws IOException {
         return jsonFileService.readJsonFile("planets_metadata.json");
