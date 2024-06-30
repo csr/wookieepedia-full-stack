@@ -1,14 +1,5 @@
 import { DataGrid } from '@mui/x-data-grid';
-//import people from 'swapi-people.json';
-//import peopleColumns from 'swapi-people-columns.json';
-
 import { usePeopleColumns, usePeopleData } from '@/api';
-
-//import planets from 'swapi-planets.json';
-//import planetsColumns from 'swapi-planets-columns.json';
-
-//const peopleRows = people.results;
-//const planetsRows = planets.results;
 
 export enum TableDataType {
   People,

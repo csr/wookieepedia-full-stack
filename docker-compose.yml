@@ -1,9 +1,17 @@
-version: "3.7"
+version: '3.8'
 
 services:
   frontend-app:
-    build:
-      context: .
-      dockerfile: Dockerfile
+    build: ./frontend
+    environment:
+      - REACT_APP_BACKEND_APP_API_BASE_URL=http://localhost:8080
+      - REACT_APP_BACKEND_APP_API_PREFIX=api/v1
     ports:
-      - 6969:3000
+      - "6969:3000"
+    depends_on:
+      - backend-app
+
+  backend-app:
+    build: ./backend
+    ports:
+      - "8080:8080"

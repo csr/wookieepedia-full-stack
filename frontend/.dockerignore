@@ -1,0 +1,71 @@
+# Node modules and npm debug log
+node_modules
+npm-debug.log
+
+# Local development files
+.DS_Store
+*.env
+.env.local
+.env.development
+.env.test
+.env.production
+
+# Logs
+logs
+*.log
+yarn-debug.log*
+yarn-error.log*
+
+# OS generated files
+.DS_Store
+Thumbs.db
+
+# Editor directories and files
+.idea
+.vscode
+*.sublime-project
+*.sublime-workspace
+
+# Temporary directories and files
+tmp
+temp
+*.swp
+
+# Build output directories
+dist
+build
+out
+coverage
+
+# Other dependencies
+jspm_packages
+
+# Static files
+*.cache
+.cache
+
+# Mac OS generated files
+*.AppleDouble
+
+# Images
+*.png
+*.jpg
+*.jpeg
+*.gif
+*.svg
+*.ico
+
+# Git and GitHub files
+.git
+.gitignore
+.gitattributes
+.github
+
+# Docker files
+Dockerfile
+.dockerignore
+
+# Package lock files
+package-lock.json
+yarn.lock
+pnpm-lock.yaml
