@@ -11,7 +11,7 @@ This full-stack application uses data from [swapi](https://swapi.dev/), a Star W
 
 ## Getting Started
 
-First off, ensure you have Docker installed. You can either download [Docker Desktop](https://www.docker.com/products/docker-desktop/) (easier to use but it requires a license if you're working in an enterprise) or [install Docker Engine](https://docs.docker.com/engine/install/ubuntu/#install-using-the-convenience-script) directly.
+First off, ensure you have Docker and Docker Compose installed. You can either download [Docker Desktop](https://www.docker.com/products/docker-desktop/) (easier to use but it requires a license if you're working in an enterprise) or [install Docker Engine](https://docs.docker.com/engine/install/ubuntu/#install-using-the-convenience-script) directly.
 
 Let's clone the project:
 
