@@ -5,7 +5,7 @@
 We're so excited to have you here. May the _code_ be with you as you navigate through the project. Wookieepedia! is a full-stack project divided into two applications:
 
 * A frontend React application written with TypeScript.
-* A backend application written with Java and using the XYZ library.
+* A backend application written with Java and using the Micronaut library.
 
 This full-stack application uses data from [swapi](https://swapi.dev/), a Star Wars API.
 
