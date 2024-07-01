@@ -30,6 +30,6 @@ export const usePeopleColumns = (): UseQueryResult<PeopleColumns[], Error> => {
     return useQuery<PeopleColumns[], Error>('people-columns', fetchColumns);
 };
 
-export const usePeopleData = (page: number): UseQueryResult<Person[], Error> => {
+export const usePeopleData = (): UseQueryResult<Person[], Error> => {
     return useQuery<Person[], Error>('people-data', fetchData);
 };

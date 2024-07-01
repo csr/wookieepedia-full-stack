@@ -1,10 +1,12 @@
 package com.cesaredecal;
 
 import com.cesaredecal.models.PeopleResponse;
-import com.cesaredecal.models.PeopleResponse.Person;
 import reactor.core.publisher.Mono;
 
 import jakarta.inject.Singleton;
+
+import javax.inject.Inject;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
@@ -14,6 +16,9 @@ import java.util.logging.Logger;
 public class StarWarsService {
 
     private static final Logger LOGGER = Logger.getLogger(StarWarsService.class.getName());
+
+    @Inject
+    private JsonFileService jsonFileService;
 
     private final StarWarsClient starWarsClient;
 
@@ -35,7 +40,14 @@ public class StarWarsService {
                 });
     }
 
-    public Mono<List<Person>> fetchAllPeople() {
-        return fetchAllPeople(1, new ArrayList<>());
+    public Mono<String> fetchAllPeopleFromStorage() throws IOException {
+        return Mono.just(jsonFileService.readJsonFile("people_data.json"));
+    }
+
+    public void fetchAllPeopleAndWriteToJson() {
+        fetchAllPeople(1, new ArrayList<>())
+                .subscribe(results -> {
+                    jsonFileService.writeToJsonFile(results, "people_data.json");
+                });
     }
 }
