@@ -94,6 +94,7 @@ The frontend application should be relatively easy to use. However, there are se
 * Accessibility: ensure the application is fully accessible by testing it with a screen reader.
 * Loading state / error notifications.
 * Testing it with a real user: we should conduct an interview with a Star Wars fun to see what they think about the app and if they find it easy to use.
+* The pagination could be implemented on the backend side to help reduce the amount of data transfered. In this case the list of people and planets is quite small but bigger datasets may benefit from a pagination implemented on the backend.
 
 ## License
 
