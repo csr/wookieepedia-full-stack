@@ -3,6 +3,7 @@ package com.cesaredecal;
 import com.cesaredecal.models.PeopleResponse;
 import io.micronaut.http.MediaType;
 import io.micronaut.http.annotation.Controller;
+import io.micronaut.http.annotation.QueryValue;
 import io.micronaut.http.annotation.Get;
 
 import javax.inject.Inject;
@@ -47,7 +48,7 @@ public class DefaultController {
         return jsonFileService.readJsonFile("people_metadata.json");
     }
 
-    @Get("/people/data")
+    @Get(value = "/people/data", produces = MediaType.APPLICATION_JSON)
     public Mono<String> getPeople() {
         return starWarsService.fetchAllPeople().map(this::writeListToJsonFile);
     }

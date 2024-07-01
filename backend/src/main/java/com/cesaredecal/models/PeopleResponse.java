@@ -13,6 +13,11 @@ public class PeopleResponse {
 
     private List<Person> results;
 
+    public PeopleResponse(int count, List<Person> results) {
+        this.count = count;
+        this.results = results;
+    }
+
     @JsonProperty("count")
     public int getCount() {
         return count;

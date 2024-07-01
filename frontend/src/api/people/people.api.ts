@@ -14,11 +14,12 @@ const fetchColumns = async (): Promise<PeopleColumns[]> => {
     }
 };
 
+
 const fetchData = async (): Promise<Person[]> => {
     try {
-        const { data } = await axios.get<PeopleDataResponse>(apiUrls.peopleData);
+        const { data } = await axios.get<Person[]>(apiUrls.peopleData);
         console.log("apiUrls.peopleData:", apiUrls.peopleData)
-        return data.results;
+        return data;
     } catch (error) {
         console.error("Error fetching people data:", error);
         throw error;
@@ -29,6 +30,6 @@ export const usePeopleColumns = (): UseQueryResult<PeopleColumns[], Error> => {
     return useQuery<PeopleColumns[], Error>('people-columns', fetchColumns);
 };
 
-export const usePeopleData = (): UseQueryResult<Person[], Error> => {
+export const usePeopleData = (page: number): UseQueryResult<Person[], Error> => {
     return useQuery<Person[], Error>('people-data', fetchData);
 };
