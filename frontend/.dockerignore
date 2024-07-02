@@ -2,14 +2,6 @@
 node_modules
 npm-debug.log
 
-# Local development files
-.DS_Store
-*.env
-.env.local
-.env.development
-.env.test
-.env.production
-
 # Logs
 logs
 *.log
