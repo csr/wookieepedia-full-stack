@@ -1,15 +1,25 @@
-# Potential improvement: use multi-stage builds
-# We can reduce the final size of the Docker image. The NodeJS image is pretty big because it comes with several packages and tools
-# that we may need to build our application but that we don't necessarily need in the final image.
-FROM node:18.19.0-slim
+# Build stage
+FROM node:18.19.0-slim as build
 
 WORKDIR /frontend-app
 
 # Copy only package.json and package-lock.json to leverage Docker cache
 COPY package*.json ./
 
-RUN npm i
+RUN npm install
 
+# Copy the rest of the application code
 COPY . .
 
-CMD ["npm", "run", "start"]
+# Build the application
+RUN npm run build
+
+# Production stage: this stage uses the Nginx server to serve the static files
+FROM nginx:alpine
+
+# Copy built application from the build stage
+COPY --from=build /frontend-app/build /usr/share/nginx/html
+
+EXPOSE 80
+
+CMD ["nginx", "-g", "daemon off;"]
