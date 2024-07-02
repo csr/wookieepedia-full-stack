@@ -3,6 +3,13 @@ FROM node:18.19.0-slim as build
 
 WORKDIR /frontend-app
 
+# Define build-time arguments and environment variables
+ARG REACT_APP_BACKEND_APP_API_BASE_URL
+ENV REACT_APP_BACKEND_APP_API_BASE_URL=${REACT_APP_BACKEND_APP_API_BASE_URL}
+
+ARG REACT_APP_BACKEND_APP_API_PREFIX
+ENV REACT_APP_BACKEND_APP_API_PREFIX=${REACT_APP_BACKEND_APP_API_PREFIX}
+
 # Copy only package.json and package-lock.json to leverage Docker cache
 COPY package*.json ./
 
