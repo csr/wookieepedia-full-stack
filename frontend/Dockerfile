@@ -11,6 +11,9 @@ RUN npm install
 # Copy the rest of the application code
 COPY . .
 
+# Explicitly copy the .env file because it is currently listed in .dockerignore
+COPY .env .env
+
 # Build the application
 RUN npm run build
 
