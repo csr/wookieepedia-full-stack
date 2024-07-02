@@ -13,6 +13,14 @@ jobs:
     - name: Checkout code
       uses: actions/checkout@v2
 
+    - name: Install dos2unix
+      run: sudo apt-get install -y dos2unix
+
+    - name: Ensure gradlew is executable
+      run: |
+        dos2unix ./backend/gradlew
+        chmod +x ./backend/gradlew
+
     - name: Set up Docker Buildx
       uses: docker/setup-buildx-action@v1
 
