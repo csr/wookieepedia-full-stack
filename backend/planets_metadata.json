@@ -3,7 +3,7 @@
     "field": "name",
     "headerName": "Name",
     "description": "The name of the planet.",
-    "sortable": false,
+    "sortable": true,
     "width": 150
   },
   {
@@ -80,7 +80,7 @@
     "field": "created",
     "headerName": "Created",
     "description": "The date and time when the planet entry was created.",
-    "sortable": false,
+    "sortable": true,
     "width": 150
   },
   {

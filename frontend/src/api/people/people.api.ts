@@ -1,8 +1,8 @@
 import axios from 'axios';
 import { useQuery, UseQueryResult, QueryFunctionContext } from 'react-query';
-import { GridSortDirection } from '@mui/x-data-grid';
 import { apiUrls } from '../api.routes';
 import { PeopleColumns, Person } from './people.model';
+import { SortParameters } from '@/api';
 
 const fetchColumns = async ({ signal }: QueryFunctionContext): Promise<PeopleColumns[]> => {
     try {
@@ -18,12 +18,15 @@ const fetchColumns = async ({ signal }: QueryFunctionContext): Promise<PeopleCol
     }
 };
 
-const fetchData = async ({ signal, meta }: QueryFunctionContext): Promise<Person[]> => {    
-    const sortBy = meta?.sortBy;
-    const sortOrder = meta?.sortOrder;
+const fetchData = async ({ signal }: QueryFunctionContext, sortingParameters?: SortParameters): Promise<Person[]> => {    
+    let params: Record<string, any> = {};
+
+    if (sortingParameters && sortingParameters.sortBy && sortingParameters.sortOrder) {
+        params = { sortBy: sortingParameters.sortBy, sortOrder: sortingParameters.sortOrder}
+    }
 
     try {
-        const { data } = await axios.get<Person[]>(apiUrls.peopleData, { signal, params: {sortBy, sortOrder} });
+        const { data } = await axios.get<Person[]>(apiUrls.peopleData, { signal, params });
         return data;
     } catch (error) {
         if (axios.isCancel(error)) {
@@ -39,10 +42,10 @@ export const usePeopleColumns = (): UseQueryResult<PeopleColumns[], Error> => {
     return useQuery<PeopleColumns[], Error>('people-columns', fetchColumns);
 };
 
-export const usePeopleData = (searchTerm?: string, sortBy?: string, sortOrder?: GridSortDirection): UseQueryResult<Person[], Error> => {
+export const usePeopleData = (searchTerm?: string, sortingParameters?: SortParameters): UseQueryResult<Person[], Error> => {
     return useQuery<Person[], Error>({
-        queryKey: ['people-data', searchTerm, sortBy, sortOrder],
-        queryFn: (context) => fetchData({ ...context, meta: {sortBy, sortOrder} }),
+        queryKey: ['people-data', searchTerm, sortingParameters],
+        queryFn: (context) => fetchData({ ...context }, sortingParameters),
         select: (data: Person[]) => {
             if (!searchTerm) {
                 return data;

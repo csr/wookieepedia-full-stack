@@ -2,19 +2,24 @@ import { useState } from 'react';
 import Box from '@mui/material/Box';
 import Tabs from '@mui/material/Tabs';
 import Tab from '@mui/material/Tab';
-import { DataTable } from '@/components/table';
 import { SearchBar } from '@/components/search-bar';
-import { TableDataType } from '@/components/table';
+import { PeopleTable } from '@/components/people-table';
+import { PlanetsTable } from '@/components/planets-table';
 
 import './home.css';
 
 const Home = () => {
-  const [searchTerm, setSearchTerm] = useState<string>('');
-
   const [currentTabId, setCurrentTabId] = useState(0);
 
-  const handleSearchChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setSearchTerm(event.target.value);
+  const [peopleSearchTerm, setPeopleSearchTerm] = useState<string>('');
+  const [planetsSearchTerm, setPlanetsSearchTerm] = useState<string>('');
+
+  const handlePeopleSearchChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setPeopleSearchTerm(event.target.value);
+  };
+
+  const handlePlanetsSearchChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setPlanetsSearchTerm(event.target.value);
   };
 
   const handleTabChange = (event: React.SyntheticEvent, newValue: number) => {
@@ -25,7 +30,7 @@ const Home = () => {
     <div className="container">
       <header>
         <h1 className="star-wars-logo"> WOOKIEEPEDIA!</h1>
-        <Box sx={{ width: '100%' }}>
+        <Box>
           <Tabs value={currentTabId} onChange={handleTabChange} centered>
             <Tab label="🤖 PEOPLE" />
             <Tab label="🪐 PLANETS" />
@@ -36,21 +41,21 @@ const Home = () => {
         {currentTabId === 0 && (
           <>
             <SearchBar
-              value={searchTerm}
-              onChange={handleSearchChange}
+              value={peopleSearchTerm}
+              onChange={handlePeopleSearchChange}
               placeholder="Search people..."
             />
-            <DataTable type={TableDataType.People} searchTerm={searchTerm} />
+            <PeopleTable searchTerm={peopleSearchTerm} />
           </>
         )}
         {currentTabId === 1 && (
           <>
             <SearchBar
-              value={searchTerm}
-              onChange={handleSearchChange}
+              value={planetsSearchTerm}
+              onChange={handlePlanetsSearchChange}
               placeholder="Search planets..."
             />
-            <DataTable type={TableDataType.Planets} searchTerm={searchTerm} />
+            <PlanetsTable searchTerm={planetsSearchTerm} />
           </>
         )}
       </main>

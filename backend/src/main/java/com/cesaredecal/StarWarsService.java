@@ -1,7 +1,7 @@
 package com.cesaredecal;
 
 import com.cesaredecal.models.PeopleResponse;
-import com.fasterxml.jackson.core.type.TypeReference;
+import com.cesaredecal.models.PlanetsResponse;
 import io.micronaut.core.type.Argument;
 import io.micronaut.serde.ObjectMapper;
 import reactor.core.publisher.Mono;
@@ -16,7 +16,6 @@ import java.util.Comparator;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import java.util.stream.Collectors;
 
 @Singleton
 public class StarWarsService {
@@ -53,11 +52,8 @@ public class StarWarsService {
         String fileName = "people_data.json";
         String jsonContent = jsonFileService.readJsonFile(fileName);
 
-        // No sorting needed here
+        // Exit early if no sorting is needed
         if ((sortBy == null || sortBy.isEmpty()) || (sortOrder == null || sortOrder.isEmpty())) {
-            LOGGER.log(Level.INFO, "No sorting needed here");
-            LOGGER.log(Level.INFO, "sortBy: {0}", sortBy);
-            LOGGER.log(Level.INFO, "sortOrder: {0}", sortOrder);
             return Mono.just(jsonContent);
         }
 
@@ -87,4 +83,55 @@ public class StarWarsService {
                     jsonFileService.writeToJsonFile(results, "people_data.json");
                 });
     }
+
+    private Mono<List<PlanetsResponse.Planet>> fetchAllPlanets(int page, List<PlanetsResponse.Planet> accumulatedResults) {
+        LOGGER.log(Level.INFO, "Fetching all planets of page: {0}", page);
+
+        return starWarsClient.fetchPlanets(page)
+                .flatMap(response -> {
+                    accumulatedResults.addAll(response.getResults());
+                    if (response.getNext() != null) {
+                        return fetchAllPlanets(page + 1, accumulatedResults);
+                    } else {
+                        return Mono.just(accumulatedResults);
+                    }
+                });
+    }
+
+    public void fetchAllPlanetsAndWriteToJson() {
+        fetchAllPlanets(1, new ArrayList<>())
+                .subscribe(results -> {
+                    jsonFileService.writeToJsonFile(results, "planets_data.json");
+                });
+    }
+
+    public Mono<String> fetchAllPlanetsFromStorage(String sortBy, String sortOrder) throws IOException {
+        String fileName = "planets_data.json";
+        String jsonContent = jsonFileService.readJsonFile(fileName);
+
+        // Exit early if no sorting is needed
+        if ((sortBy == null || sortBy.isEmpty()) || (sortOrder == null || sortOrder.isEmpty())) {
+            return Mono.just(jsonContent);
+        }
+
+        List<PlanetsResponse.Planet> planets = objectMapper.readValue(jsonContent, Argument.listOf(PlanetsResponse.Planet.class));
+        Comparator<PlanetsResponse.Planet> comparator;
+
+        switch (sortBy) {
+            case "created":
+                comparator = Comparator.comparing(PlanetsResponse.Planet::getCreated);
+                break;
+            default:
+                comparator = Comparator.comparing(PlanetsResponse.Planet::getName);
+        }
+
+        if ("desc".equalsIgnoreCase(sortOrder)) {
+            comparator = comparator.reversed();
+        }
+
+        Collections.sort(planets, comparator);
+
+        return Mono.just(objectMapper.writeValueAsString(planets));
+    }
+
 }

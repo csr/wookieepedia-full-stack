@@ -1,40 +1,32 @@
-import { useState } from 'react';
-import { DataGrid, GridSortModel, GridSortDirection } from '@mui/x-data-grid';
-import { usePeopleColumns, usePeopleData } from '@/api';
-
-export enum TableDataType {
-  People,
-  Planets,
-}
+import {
+  DataGrid,
+  GridSortModel,
+  GridSortDirection,
+  GridRowsProp,
+  GridColDef,
+} from '@mui/x-data-grid';
 
 interface DataTableProps {
-  type: TableDataType;
-  searchTerm?: string;
+  rows: GridRowsProp<Record<string, any>>;
+  columns: GridColDef<Record<string, any>>[];
+  onSortChange: (field: string, direction: GridSortDirection) => void;
 }
 
-export const DataTable: React.FC<DataTableProps> = props => {
-  const { searchTerm } = props;
-
-  const [sortField, setSortField] = useState<string>('');
-  const [sortOrder, setSortOrder] = useState<GridSortDirection>('asc');
-
+export const DataTable: React.FC<DataTableProps> = ({ rows, columns, onSortChange }) => {
   const handleSortModelChange = (model: GridSortModel) => {
-    if (!model) {
+    if (!model || model.length === 0) {
       return;
     }
 
+    console.log('hello sort!', model);
+
     const sortItem = model[0];
-
-    setSortField(sortItem.field);
-    setSortOrder(sortItem.sort);
+    onSortChange(sortItem.field, sortItem.sort);
   };
-
-  const { data: columns } = usePeopleColumns();
-  const { data: people } = usePeopleData(searchTerm, sortField, sortOrder);
 
   return (
     <DataGrid
-      rows={people || []}
+      rows={rows || []}
       getRowId={row => row.url}
       columns={columns || []}
       style={{ backgroundColor: '#0E1117' }}

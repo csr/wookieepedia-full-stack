@@ -15,7 +15,6 @@ import reactor.core.publisher.Mono;
 
 import java.util.logging.Logger;
 
-
 @Controller("/api/v1")
 public class DefaultController {
 
@@ -36,6 +35,8 @@ public class DefaultController {
         return "Hello World!";
     }
 
+    // People endpoints
+
     @Get(value = "/people/columns", produces = MediaType.APPLICATION_JSON)
     public String getPeopleTableColumns() throws IOException {
         // TODO: this should go inside the service
@@ -47,14 +48,24 @@ public class DefaultController {
         return starWarsService.fetchAllPeopleFromStorage(sortBy, sortOrder);
     }
 
+    // Planets endpoints
+
     @Get(value = "/planets/columns", produces = MediaType.APPLICATION_JSON)
     public String getPlanetsTableColumns() throws IOException {
         return jsonFileService.readJsonFile("planets_metadata.json");
     }
 
+    @Get(value = "/planets/data", produces = MediaType.APPLICATION_JSON)
+    public Mono<String> getPlanetsTableData(@Nullable @QueryValue String sortBy, @Nullable @QueryValue String sortOrder) throws IOException {
+        return starWarsService.fetchAllPlanetsFromStorage(sortBy, sortOrder);
+    }
+
+    // Lifecycle events
+
     @EventListener
     void init(StartupEvent event) {
         // The application fetches all the data from the Star Wars API at startup time and saves it to the disk
-        starWarsService.fetchAllPeopleAndWriteToJson();
+        //starWarsService.fetchAllPeopleAndWriteToJson();
+        starWarsService.fetchAllPlanetsAndWriteToJson();
     }
 }
