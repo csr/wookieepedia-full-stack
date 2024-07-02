@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import Box from '@mui/material/Box';
 import Tabs from '@mui/material/Tabs';
 import Tab from '@mui/material/Tab';
@@ -9,6 +9,8 @@ import { TableDataType } from '@/components/table';
 
 const Home = () => {
   const [searchTerm, setSearchTerm] = useState<string>('');
+  const [debouncedSearchTerm, setDebouncedSearchTerm] = useState<string>('');
+
   const [currentTabId, setCurrentTabId] = useState(0);
 
   const handleSearchChange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -18,6 +20,18 @@ const Home = () => {
   const handleTabChange = (event: React.SyntheticEvent, newValue: number) => {
     setCurrentTabId(newValue);
   };
+
+  // We're using debouncing here! It's basically waiting until the user stops typing to send less requests
+  // and make the user interface feel more responsive
+  useEffect(() => {
+    const handler = setTimeout(() => {
+      setDebouncedSearchTerm(searchTerm);
+    }, 150);
+
+    return () => {
+      clearTimeout(handler);
+    };
+  }, [searchTerm]);
 
   return (
     <div className="container">
@@ -38,7 +52,7 @@ const Home = () => {
               onChange={handleSearchChange}
               placeholder="Search people..."
             />
-            <DataTable type={TableDataType.People} />
+            <DataTable type={TableDataType.People} searchTerm={debouncedSearchTerm} />
           </>
         )}
         {currentTabId === 1 && (
@@ -48,7 +62,7 @@ const Home = () => {
               onChange={handleSearchChange}
               placeholder="Search planets..."
             />
-            <DataTable type={TableDataType.Planets} />
+            <DataTable type={TableDataType.Planets} searchTerm={debouncedSearchTerm} />
           </>
         )}
       </main>

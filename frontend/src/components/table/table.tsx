@@ -8,11 +8,13 @@ export enum TableDataType {
 
 interface DataTableProps {
   type: TableDataType;
+  searchTerm?: string;
 }
 
 export const DataTable: React.FC<DataTableProps> = props => {
+  const { searchTerm } = props;
   const { data: columns } = usePeopleColumns();
-  const { data: people } = usePeopleData();
+  const { data: people } = usePeopleData(searchTerm);
 
   return (
     <DataGrid

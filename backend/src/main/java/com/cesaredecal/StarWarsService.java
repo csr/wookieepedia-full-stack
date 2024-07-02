@@ -1,6 +1,9 @@
 package com.cesaredecal;
 
 import com.cesaredecal.models.PeopleResponse;
+import com.fasterxml.jackson.core.type.TypeReference;
+import io.micronaut.core.type.Argument;
+import io.micronaut.serde.ObjectMapper;
 import reactor.core.publisher.Mono;
 
 import jakarta.inject.Singleton;
@@ -11,6 +14,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import java.util.stream.Collectors;
 
 @Singleton
 public class StarWarsService {
@@ -19,6 +23,9 @@ public class StarWarsService {
 
     @Inject
     private JsonFileService jsonFileService;
+
+    @Inject
+    ObjectMapper objectMapper;
 
     private final StarWarsClient starWarsClient;
 
@@ -40,8 +47,22 @@ public class StarWarsService {
                 });
     }
 
-    public Mono<String> fetchAllPeopleFromStorage() throws IOException {
-        return Mono.just(jsonFileService.readJsonFile("people_data.json"));
+    public Mono<String> fetchAllPeopleFromStorage(String searchTerm) throws IOException {
+        String fileName = "people_data.json";
+        String jsonContent = jsonFileService.readJsonFile(fileName);
+
+        // There is nothing to filter/search, returning
+        if (searchTerm == null || searchTerm.isEmpty()) {
+            return Mono.just(jsonContent);
+        }
+
+        List<PeopleResponse.Person> people = objectMapper.readValue(jsonContent, Argument.listOf(PeopleResponse.Person.class));
+
+        List<PeopleResponse.Person> filteredPeople = people.stream()
+                .filter(person -> person.getName().toLowerCase().contains(searchTerm.toLowerCase()))
+                .collect(Collectors.toList());
+
+        return Mono.just(objectMapper.writeValueAsString(filteredPeople));
     }
 
     public void fetchAllPeopleAndWriteToJson() {

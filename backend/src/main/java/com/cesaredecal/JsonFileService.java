@@ -28,7 +28,7 @@ public class JsonFileService {
             // Assume the file is located in the root folder of the project
             byte[] bytes = Files.readAllBytes(Paths.get(fileName));
             String json = new String(bytes, StandardCharsets.UTF_8);
-            LOGGER.log(Level.INFO, "Read JSON: {0}", json);
+            LOGGER.log(Level.INFO, "Read JSON file correctly: {0}", fileName);
             return json;
         } catch (IOException e) {
             throw new IOException("Failed to read JSON file", e);

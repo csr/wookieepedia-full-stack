@@ -8,6 +8,7 @@ import io.micronaut.http.annotation.Get;
 import javax.inject.Inject;
 import java.io.IOException;
 
+import io.micronaut.http.annotation.QueryValue;
 import io.micronaut.runtime.event.annotation.EventListener;
 import reactor.core.publisher.Mono;
 
@@ -42,8 +43,8 @@ public class DefaultController {
     }
 
     @Get(value = "/people/data", produces = MediaType.APPLICATION_JSON)
-    public Mono<String> getPeople() throws IOException {
-        return starWarsService.fetchAllPeopleFromStorage();
+    public Mono<String> getPeople(@QueryValue(value = "search", defaultValue = "") String search) throws IOException {
+        return starWarsService.fetchAllPeopleFromStorage(search);
     }
 
     @Get(value = "/planets/columns", produces = MediaType.APPLICATION_JSON)
@@ -53,7 +54,7 @@ public class DefaultController {
 
     @EventListener
     void init(StartupEvent event) {
-        LOGGER.log(Level.INFO, "hello world!!!");
+        // The application fetches all the data from the Star Wars API at startup time and saves it to the disk
         starWarsService.fetchAllPeopleAndWriteToJson();
     }
 }

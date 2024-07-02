@@ -16,20 +16,6 @@
     <link href="https://fonts.googleapis.com/css2?family=Poller+One&display=swap" rel="stylesheet">
   </head>
   <body>
-    <script>
-      const starCount = 500;
-
-      for (let i = 0; i < starCount; i++) {
-          const star = document.createElement('div');
-          star.className = 'star';
-          const size = Math.random() * 2 + 1;
-          star.style.width = `${size}px`;
-          star.style.height = `${size}px`;
-          star.style.top = `${Math.random() * 100}vh`;
-          star.style.left = `${Math.random() * 100}vw`;
-          document.body.appendChild(star);
-      }
-  </script>
     <noscript>You need to enable JavaScript to run this app.</noscript>
     <div id="root"></div>
   </body>
