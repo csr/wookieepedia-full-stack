@@ -38,9 +38,8 @@ public class DefaultController {
     // People endpoints
 
     @Get(value = "/people/columns", produces = MediaType.APPLICATION_JSON)
-    public String getPeopleTableColumns() throws IOException {
-        // TODO: this should go inside the service
-        return jsonFileService.readJsonFile("people_metadata.json");
+    public Mono<String> getPeopleTableColumns() throws IOException {
+        return starWarsService.fetchPeopleColumns();
     }
 
     @Get(value = "/people/data", produces = MediaType.APPLICATION_JSON)
@@ -51,8 +50,8 @@ public class DefaultController {
     // Planets endpoints
 
     @Get(value = "/planets/columns", produces = MediaType.APPLICATION_JSON)
-    public String getPlanetsTableColumns() throws IOException {
-        return jsonFileService.readJsonFile("planets_metadata.json");
+    public Mono<String> getPlanetsTableColumns() throws IOException {
+        return starWarsService.fetchPlanetsColumns();
     }
 
     @Get(value = "/planets/data", produces = MediaType.APPLICATION_JSON)
@@ -65,7 +64,7 @@ public class DefaultController {
     @EventListener
     void init(StartupEvent event) {
         // The application fetches all the data from the Star Wars API at startup time and saves it to the disk
-        //starWarsService.fetchAllPeopleAndWriteToJson();
+        starWarsService.fetchAllPeopleAndWriteToJson();
         starWarsService.fetchAllPlanetsAndWriteToJson();
     }
 }

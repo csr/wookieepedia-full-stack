@@ -34,6 +34,11 @@ public class StarWarsService {
         this.starWarsClient = starWarsClient;
     }
 
+    // People
+    public Mono<String> fetchPeopleColumns() throws IOException {
+        return Mono.just(jsonFileService.readJsonFile("people_metadata.json"));
+    }
+
     private Mono<List<PeopleResponse.Person>> fetchAllPeople(int page, List<PeopleResponse.Person> accumulatedResults) {
         LOGGER.log(Level.INFO, "Fetching all people of page: {0}", page);
 
@@ -82,6 +87,12 @@ public class StarWarsService {
                 .subscribe(results -> {
                     jsonFileService.writeToJsonFile(results, "people_data.json");
                 });
+    }
+
+    // Planets
+
+    public Mono<String> fetchPlanetsColumns() throws IOException {
+        return Mono.just(jsonFileService.readJsonFile("planets_metadata.json"));
     }
 
     private Mono<List<PlanetsResponse.Planet>> fetchAllPlanets(int page, List<PlanetsResponse.Planet> accumulatedResults) {
