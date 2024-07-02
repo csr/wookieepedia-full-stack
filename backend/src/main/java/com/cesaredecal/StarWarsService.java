@@ -11,6 +11,8 @@ import jakarta.inject.Singleton;
 import javax.inject.Inject;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -47,22 +49,36 @@ public class StarWarsService {
                 });
     }
 
-    public Mono<String> fetchAllPeopleFromStorage(String searchTerm) throws IOException {
+    public Mono<String> fetchAllPeopleFromStorage(String sortBy, String sortOrder) throws IOException {
         String fileName = "people_data.json";
         String jsonContent = jsonFileService.readJsonFile(fileName);
 
-        // There is nothing to filter/search, returning
-        if (searchTerm == null || searchTerm.isEmpty()) {
+        // No sorting needed here
+        if ((sortBy == null || sortBy.isEmpty()) || (sortOrder == null || sortOrder.isEmpty())) {
+            LOGGER.log(Level.INFO, "No sorting needed here");
+            LOGGER.log(Level.INFO, "sortBy: {0}", sortBy);
+            LOGGER.log(Level.INFO, "sortOrder: {0}", sortOrder);
             return Mono.just(jsonContent);
         }
 
         List<PeopleResponse.Person> people = objectMapper.readValue(jsonContent, Argument.listOf(PeopleResponse.Person.class));
+        Comparator<PeopleResponse.Person> comparator;
 
-        List<PeopleResponse.Person> filteredPeople = people.stream()
-                .filter(person -> person.getName().toLowerCase().contains(searchTerm.toLowerCase()))
-                .collect(Collectors.toList());
+        switch (sortBy) {
+            case "created":
+                comparator = Comparator.comparing(PeopleResponse.Person::getCreated);
+                break;
+            default:
+                comparator = Comparator.comparing(PeopleResponse.Person::getName);
+        }
 
-        return Mono.just(objectMapper.writeValueAsString(filteredPeople));
+        if ("desc".equalsIgnoreCase(sortOrder)) {
+            comparator = comparator.reversed();
+        }
+
+        Collections.sort(people, comparator);
+
+        return Mono.just(objectMapper.writeValueAsString(people));
     }
 
     public void fetchAllPeopleAndWriteToJson() {

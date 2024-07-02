@@ -1,6 +1,7 @@
 package com.cesaredecal;
 
 import io.micronaut.context.event.StartupEvent;
+import io.micronaut.core.annotation.Nullable;
 import io.micronaut.http.MediaType;
 import io.micronaut.http.annotation.Controller;
 import io.micronaut.http.annotation.Get;
@@ -12,7 +13,6 @@ import io.micronaut.http.annotation.QueryValue;
 import io.micronaut.runtime.event.annotation.EventListener;
 import reactor.core.publisher.Mono;
 
-import java.util.logging.Level;
 import java.util.logging.Logger;
 
 
@@ -43,8 +43,8 @@ public class DefaultController {
     }
 
     @Get(value = "/people/data", produces = MediaType.APPLICATION_JSON)
-    public Mono<String> getPeople(@QueryValue(value = "search", defaultValue = "") String search) throws IOException {
-        return starWarsService.fetchAllPeopleFromStorage(search);
+    public Mono<String> getPeople(@Nullable @QueryValue String sortBy, @Nullable @QueryValue String sortOrder) throws IOException {
+        return starWarsService.fetchAllPeopleFromStorage(sortBy, sortOrder);
     }
 
     @Get(value = "/planets/columns", produces = MediaType.APPLICATION_JSON)
