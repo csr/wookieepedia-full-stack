@@ -8,6 +8,14 @@ logs
 yarn-debug.log*
 yarn-error.log*
 
+# Local development files
+.DS_Store
+*.env
+.env.local
+.env.development
+.env.test
+.env.production
+
 # OS generated files
 .DS_Store
 Thumbs.db
