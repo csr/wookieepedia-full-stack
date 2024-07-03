@@ -116,6 +116,10 @@ This full-stack app was built in just a few days and there is plenty to improve 
 * The pagination could be implemented on the backend side to help reduce the amount of data transfered. In this case the list of people and planets is quite small but bigger datasets may benefit from a pagination implemented on the backend, although that increases the number of requests the frontend needs to make (if the user decides to navigate to a different page).
 * Improve testing coverage by writing unit tests, integration tests and end-to-end tests.
 
+## Got feedback?
+
+Feedback is a gift. Feel free to reach out to Cesare for suggestions, questions and ideas.
+
 ## License
 
 This project is licensed under the terms of the MIT license.
