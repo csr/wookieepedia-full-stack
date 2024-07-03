@@ -67,6 +67,10 @@ However, there are some downsides:
 
 Search and pagination are handled on the frontend side, while sorting is done on the backend as per requirement. A client-side search is pretty fast, but it comes with a downside: the backend will always have to return the entire dataset no matter if the user is searching locally or not. The pagination is done on the frontend because it was simpler and easier to sync the UI state with the backend state, but in the future we can explore ways to paginate date (especially if the dataset grows in size!). The frontend app is also designed to be responsive and work well on mobile devices (I hope!).
 
+## CI/CD
+
+You may find a folder called `.github/workflows` at root level which has two GitHub actions files. These Actions automatically build the Dockerfile for both the frontend and backend application and push the newly created Docker images to the [cesaredecal/wookieepedia-full-stack](https://hub.docker.com/repository/docker/cesaredecal/wookieepedia-full-stack) Docker Hub public repository. DigitalOcean fetches these images and spins up the containers. 
+
 ## Building the Docker image one by one
 
 This step is not necessary because Docker Compose will automatically build and start all the Docker containers for you. However, you can build and run Docker containers one by one if you so decide (useful if you want to try out changes in a single `Dockerfile` file or want to test just the frontend or backend). Let us first navigate to the frontend project:
