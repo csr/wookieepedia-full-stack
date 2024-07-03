@@ -13,6 +13,18 @@ jobs:
     - name: Checkout code
       uses: actions/checkout@v2
 
+    - name: Install dependencies
+      run: npm install
+      working-directory: ./frontend
+
+    - name: Install Playwright dependencies
+      run: npx playwright install
+      working-directory: ./frontend
+
+    - name: Run Playwright tests
+      run: npx playwright test
+      working-directory: ./frontend
+
     - name: Set up Docker Buildx
       uses: docker/setup-buildx-action@v1
 
