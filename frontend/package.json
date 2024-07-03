@@ -52,6 +52,7 @@
   },
   "devDependencies": {
     "@babel/plugin-proposal-private-property-in-object": "7.21.0",
+    "@playwright/test": "^1.45.1",
     "@tanstack/eslint-plugin-query": "^5.49.0",
     "babel-plugin-module-resolver": "^5.0.2",
     "customize-cra": "^1.0.0",
