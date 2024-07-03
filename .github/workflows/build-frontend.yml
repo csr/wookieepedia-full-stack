@@ -13,12 +13,28 @@ jobs:
     - name: Checkout code
       uses: actions/checkout@v2
       
-    - uses: actions/setup-node@v4
+    - name: Set up Node.js
+      uses: actions/setup-node@v4
       with:
         node-version: 18
-        
+
+    - name: Clear npm cache
+      run: npm cache clean --force
+
+    - name: Install npm@latest
+      run: npm install -g npm@latest
+
+    - name: Verify Node.js version
+      run: node -v
+      
+    - name: Verify npm version
+      run: npm -v
+
+    - name: List files in frontend directory
+      run: ls -la ./frontend
+
     - name: Install dependencies
-      run: npm ci
+      run: npm ci || npm install
       working-directory: ./frontend
 
     - name: Install Playwright Browsers
