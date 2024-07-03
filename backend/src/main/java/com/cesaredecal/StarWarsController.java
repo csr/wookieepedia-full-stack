@@ -46,4 +46,11 @@ public class StarWarsController {
     public Mono<String> getPlanetsTableData(@Nullable @QueryValue String sortBy, @Nullable @QueryValue String sortOrder) throws IOException {
         return starWarsService.fetchTableDataFromStorage(DataType.PLANETS, sortBy, sortOrder);
     }
+
+    // Possible future improvement:
+    // Add a /ready or /health endpoint so that the platform solution (e.g. Kubernetes) knows when the application can
+    // be considered to be "ready". In the /ready endpoint we would check if the people_data and planets_data JSON files
+    // are already available. If yes, we're good to go and the application is ready to start receiving requests.
+    // This is to avoid the state of the backend app being up but it still hasn't finished download the data from the
+    // backend. Kubernetes makes this easy to do.
 }
