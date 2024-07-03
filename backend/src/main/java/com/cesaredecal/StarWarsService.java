@@ -1,8 +1,11 @@
 package com.cesaredecal;
 
+import com.cesaredecal.models.DataType;
 import com.cesaredecal.models.PeopleResponse;
 import com.cesaredecal.models.PlanetsResponse;
+import io.micronaut.context.event.StartupEvent;
 import io.micronaut.core.type.Argument;
+import io.micronaut.runtime.event.annotation.EventListener;
 import io.micronaut.serde.ObjectMapper;
 import reactor.core.publisher.Mono;
 
@@ -22,22 +25,27 @@ public class StarWarsService {
 
     private static final Logger LOGGER = Logger.getLogger(StarWarsService.class.getName());
 
-    @Inject
-    private JsonFileService jsonFileService;
-
-    @Inject
-    ObjectMapper objectMapper;
-
     private final StarWarsClient starWarsClient;
+    private final JsonFileService jsonFileService;
+    private final ObjectMapper objectMapper;
 
-    public StarWarsService(StarWarsClient starWarsClient) {
+    @Inject
+    public StarWarsService(StarWarsClient starWarsClient, JsonFileService jsonFileService, ObjectMapper objectMapper) {
         this.starWarsClient = starWarsClient;
+        this.jsonFileService = jsonFileService;
+        this.objectMapper = objectMapper;
     }
 
-    // People
-    public Mono<String> fetchPeopleColumns() throws IOException {
-        return Mono.just(jsonFileService.readJsonFile("people_metadata.json"));
+    // Lifecycle events
+
+    @EventListener
+    void init(StartupEvent event) {
+        // The application fetches all the data from the Star Wars API at startup time and saves it to the disk
+        fetchTableDataAndSaveJson(DataType.PEOPLE);
+        fetchTableDataAndSaveJson(DataType.PLANETS);
     }
+
+    // Write operations
 
     private Mono<List<PeopleResponse.Person>> fetchAllPeople(int page, List<PeopleResponse.Person> accumulatedResults) {
         LOGGER.log(Level.INFO, "Fetching all people of page: {0}", page);
@@ -48,51 +56,10 @@ public class StarWarsService {
                     if (response.getNext() != null) {
                         return fetchAllPeople(page + 1, accumulatedResults);
                     } else {
+                        LOGGER.log(Level.INFO, "Fetched people count: {0}", accumulatedResults.size());
                         return Mono.just(accumulatedResults);
                     }
                 });
-    }
-
-    public Mono<String> fetchAllPeopleFromStorage(String sortBy, String sortOrder) throws IOException {
-        String fileName = "people_data.json";
-        String jsonContent = jsonFileService.readJsonFile(fileName);
-
-        // Exit early if no sorting is needed
-        if ((sortBy == null || sortBy.isEmpty()) || (sortOrder == null || sortOrder.isEmpty())) {
-            return Mono.just(jsonContent);
-        }
-
-        List<PeopleResponse.Person> people = objectMapper.readValue(jsonContent, Argument.listOf(PeopleResponse.Person.class));
-        Comparator<PeopleResponse.Person> comparator;
-
-        switch (sortBy) {
-            case "created":
-                comparator = Comparator.comparing(PeopleResponse.Person::getCreated);
-                break;
-            default:
-                comparator = Comparator.comparing(PeopleResponse.Person::getName);
-        }
-
-        if ("desc".equalsIgnoreCase(sortOrder)) {
-            comparator = comparator.reversed();
-        }
-
-        Collections.sort(people, comparator);
-
-        return Mono.just(objectMapper.writeValueAsString(people));
-    }
-
-    public void fetchAllPeopleAndWriteToJson() {
-        fetchAllPeople(1, new ArrayList<>())
-                .subscribe(results -> {
-                    jsonFileService.writeToJsonFile(results, "people_data.json");
-                });
-    }
-
-    // Planets
-
-    public Mono<String> fetchPlanetsColumns() throws IOException {
-        return Mono.just(jsonFileService.readJsonFile("planets_metadata.json"));
     }
 
     private Mono<List<PlanetsResponse.Planet>> fetchAllPlanets(int page, List<PlanetsResponse.Planet> accumulatedResults) {
@@ -104,20 +71,38 @@ public class StarWarsService {
                     if (response.getNext() != null) {
                         return fetchAllPlanets(page + 1, accumulatedResults);
                     } else {
+                        LOGGER.log(Level.INFO, "Fetched planets count: {0}", accumulatedResults.size());
                         return Mono.just(accumulatedResults);
                     }
                 });
     }
 
-    public void fetchAllPlanetsAndWriteToJson() {
-        fetchAllPlanets(1, new ArrayList<>())
-                .subscribe(results -> {
-                    jsonFileService.writeToJsonFile(results, "planets_data.json");
-                });
+    public void fetchTableDataAndSaveJson(DataType dataType) {
+        String fileName = dataType.getDataFileName();
+
+        switch (dataType) {
+            case PEOPLE:
+                fetchAllPeople(1, new ArrayList<>())
+                        .subscribe(results -> jsonFileService.writeToJsonFile(results, fileName));
+                break;
+            case PLANETS:
+                fetchAllPlanets(1, new ArrayList<>())
+                        .subscribe(results -> jsonFileService.writeToJsonFile(results, fileName));
+                break;
+            default:
+                throw new IllegalArgumentException("Unsupported data type: " + dataType);
+        }
     }
 
-    public Mono<String> fetchAllPlanetsFromStorage(String sortBy, String sortOrder) throws IOException {
-        String fileName = "planets_data.json";
+    // Read operations
+
+    public Mono<String> fetchColumns(DataType dataType) throws IOException {
+        String fileName = dataType.getColumnsFileName();
+        return Mono.just(jsonFileService.readJsonFile(fileName));
+    }
+
+    public <T> Mono<String> fetchTableDataFromStorage(DataType dataType, String sortBy, String sortOrder) throws IOException {
+        String fileName = dataType.getDataFileName();
         String jsonContent = jsonFileService.readJsonFile(fileName);
 
         // Exit early if no sorting is needed
@@ -125,24 +110,46 @@ public class StarWarsService {
             return Mono.just(jsonContent);
         }
 
-        List<PlanetsResponse.Planet> planets = objectMapper.readValue(jsonContent, Argument.listOf(PlanetsResponse.Planet.class));
-        Comparator<PlanetsResponse.Planet> comparator;
-
-        switch (sortBy) {
-            case "created":
-                comparator = Comparator.comparing(PlanetsResponse.Planet::getCreated);
-                break;
-            default:
-                comparator = Comparator.comparing(PlanetsResponse.Planet::getName);
-        }
+        Class<T> type = (Class<T>) dataType.getType();
+        List<T> data = objectMapper.readValue(jsonContent, Argument.listOf(type));
+        Comparator<T> comparator = getComparator(dataType, sortBy);
 
         if ("desc".equalsIgnoreCase(sortOrder)) {
             comparator = comparator.reversed();
         }
 
-        Collections.sort(planets, comparator);
+        Collections.sort(data, comparator);
 
-        return Mono.just(objectMapper.writeValueAsString(planets));
+        return Mono.just(objectMapper.writeValueAsString(data));
+    }
+
+    private <T> Comparator<T> getComparator(DataType dataType, String sortBy) {
+        switch (dataType) {
+            case PEOPLE:
+                return (Comparator<T>) getPeopleComparator(sortBy);
+            case PLANETS:
+                return (Comparator<T>) getPlanetsComparator(sortBy);
+            default:
+                throw new IllegalArgumentException("Unsupported data type: " + dataType);
+        }
+    }
+
+    private Comparator<PeopleResponse.Person> getPeopleComparator(String sortBy) {
+        switch (sortBy) {
+            case "created":
+                return Comparator.comparing(PeopleResponse.Person::getCreated);
+            default:
+                return Comparator.comparing(PeopleResponse.Person::getName);
+        }
+    }
+
+    private Comparator<PlanetsResponse.Planet> getPlanetsComparator(String sortBy) {
+        switch (sortBy) {
+            case "created":
+                return Comparator.comparing(PlanetsResponse.Planet::getCreated);
+            default:
+                return Comparator.comparing(PlanetsResponse.Planet::getName);
+        }
     }
 
 }
