@@ -71,6 +71,10 @@ Search and pagination are handled on the frontend side, while sorting is done on
 
 You will find a folder called `.github/workflows` at the root level which has two GitHub Actions files. These Actions automatically build the Dockerfile for both the frontend and backend application when a new commit is detected on the `main` branch. The GitHub actions push the newly created Docker images to the [cesaredecal/wookieepedia-full-stack](https://hub.docker.com/repository/docker/cesaredecal/wookieepedia-full-stack) Docker Hub public repository. As a fun fact, the web app is hosted on DigitalOcean using the App Platform Plaform-as-a-Service product that fetches these images and spins up the containers. 
 
+## Tests
+
+While all types of tests are important, due to the limited time available end-to-end tests are available. PlayWright is the testing library of choice for this project.
+
 ## Building the Docker image one by one
 
 This step is not necessary because Docker Compose will automatically build and start all the Docker containers for you. However, you can build and run Docker containers one by one if you so decide (useful if you want to try out changes in a single `Dockerfile` file or want to test just the frontend or backend). Let us first navigate to the frontend project:
