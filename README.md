@@ -69,7 +69,7 @@ Search and pagination are handled on the frontend side, while sorting is done on
 
 ## CI/CD
 
-You may find a folder called `.github/workflows` at root level which has two GitHub actions files. These Actions automatically build the Dockerfile for both the frontend and backend application and push the newly created Docker images to the [cesaredecal/wookieepedia-full-stack](https://hub.docker.com/repository/docker/cesaredecal/wookieepedia-full-stack) Docker Hub public repository. DigitalOcean fetches these images and spins up the containers. 
+You will find a folder called `.github/workflows` at the root level which has two GitHub Actions files. These Actions automatically build the Dockerfile for both the frontend and backend application when a new commit is detected on the `main` branch. The GitHub actions push the newly created Docker images to the [cesaredecal/wookieepedia-full-stack](https://hub.docker.com/repository/docker/cesaredecal/wookieepedia-full-stack) Docker Hub public repository. As a fun fact, the web app is hosted on DigitalOcean using the App Platform Plaform-as-a-Service product that fetches these images and spins up the containers. 
 
 ## Building the Docker image one by one
 
