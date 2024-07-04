@@ -60,7 +60,7 @@ Here is why the backend application works the way it does:
 
 However, there are some downsides:
 
-* The backend application will need to send several requests (around 20) to the Star Wars API only when it starts up to collect the data. However, once the data is collected and saved to the disk space, the backend application will no longer make any request to the Star Wars API. Please keep in mind the number of requests won't be too high because the dataset (in other words, the number of pages) is quite small.
+* The backend application will need to send several requests (around 15) to the Star Wars API only when it starts up to collect the data. However, once the data is collected and saved to the disk space, the backend application will no longer make any request to the Star Wars API. Please keep in mind the number of requests won't be too high because the dataset (in other words, the number of pages) is quite small.
 * The backend application will fetch the data solely at _startup_ time. This means that if new data is available in the API the backend application will still serve old data. While this isn't ideal, we can assume that the [swapi](https://swapi.dev/) data will not change often. After all, it's not every day that a new Star Wars movie comes out. With modern technologies like Kubernetes it can be easy to restart the application with zero downtime (spin up a new pod and terminate the old one once the new pod is up).
 
 ## Frontend design considerations
