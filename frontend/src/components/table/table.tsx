@@ -18,8 +18,6 @@ export const DataTable: React.FC<DataTableProps> = ({ rows, columns, onSortChang
       return;
     }
 
-    console.log('hello sort!', model);
-
     const sortItem = model[0];
     onSortChange(sortItem.field, sortItem.sort);
   };
