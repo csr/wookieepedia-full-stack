@@ -108,7 +108,7 @@ $ cd frontend
 $ npm run test:e2e
 ```
 
-`node` must be installed on your computer for this to work, including the Playwright browser executables. The browsers can be installed with the following command:
+`npm` (and therefore Node.js) must be installed on your computer for this to work, including the Playwright browser executables. The browsers can be installed with the following command:
 
 ```bash
 $ npx playwright install
