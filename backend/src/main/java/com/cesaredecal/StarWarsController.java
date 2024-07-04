@@ -8,7 +8,6 @@ import io.micronaut.http.annotation.Get;
 import io.micronaut.http.annotation.QueryValue;
 
 import javax.inject.Inject;
-import java.io.IOException;
 
 import reactor.core.publisher.Mono;
 
