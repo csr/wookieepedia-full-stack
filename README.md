@@ -79,7 +79,7 @@ While all types of tests are important, due to the limited time available end-to
 * ✅ `Luke Skywalker` appears in the first table and that `Gasgano` appears when searching for `gano`
 * ✅ `Tatooine` appears in the planet table and that `Felucia` appears when searching for `fe`
 * ✅ Search bar inputs are maintained even after switching between tabs
-* ✅ Sorting works as expected in both tables
+* ✅ Pagination and sorting work as expected
 
 ## Building the Docker image one by one
 
