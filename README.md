@@ -91,7 +91,7 @@ You will find a folder called `.github/workflows` at the root level which has tw
 
 ## Run e2e tests
 
-While all types of tests are important, due to the limited time available end-to-end tests are available. PlayWright is the testing library of choice for this project. Find the end-to-end (e2e) tests in `frontend/tests/home.spec.ts`. These are not integration tests (that mock the backend API), but I analyzed the options and considered that end-to-end tests would be the most complete and would test both frontend and backend functionalities at the same time. 
+While all types of tests are important, due to the limited time available end-to-end tests are available. Playwright is the testing library of choice for this project. Find the end-to-end (e2e) tests in `frontend/tests/home.spec.ts`. These are not integration tests (that mock the backend API), but I analyzed the options and considered that end-to-end tests would be the most complete and would test both frontend and backend functionalities at the same time. 
 
 The tests check the following:
 
@@ -100,6 +100,21 @@ The tests check the following:
 * ✅ `Tatooine` appears in the planet table and that `Felucia` appears when searching for `fe`
 * ✅ Search bar inputs are maintained even after switching between tabs
 * ✅ Pagination and sorting work as expected
+
+At the moment you can only run e2e locally by using the
+
+```bash
+$ cd frontend
+$ npm run test:e2e
+```
+
+`node` must be installed on your computer for this to work, including the Playwright browser executables. The browsers can be installed with the following command:
+
+```bash
+npx playwright install
+```
+
+In the feature running the e2e tests can be moved to the pipeline. Setting the appropriate environment variables will be required for that to work correctly.
 
 ## Building the Docker image one by one
 
