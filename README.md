@@ -9,7 +9,7 @@ You can access the [live web app](https://wookieepedia-fullstack-app-grbeu.ondig
 | Application     | Description                                  | Application Port | Docker Compose Port |
 |-----------------|----------------------------------------------|------------------|----------------------|
 | Frontend app    | React application written in TypeScript. It features two tables (🤖 _people_ and 🪐 _planets_). It uses axios to make HTTP REST API requests and React Query to manage and cache the API responses. | 3000             | 6969                 |
-| Backend app     | Micronaut application written in Java. It servers endpoints that return the columns and data of the _people_ and _planets_ tables. It uses data from [swapi](https://swapi.dev/), a Star Wars API.  | 8080             | 8080                 |
+| Backend app     | Micronaut application written in Java. It serves endpoints that return the columns and data of the _people_ and _planets_ tables. It uses data from [swapi](https://swapi.dev/), a Star Wars API.  | 8080             | 8080                 |
 
 ## Project structure
 
@@ -71,9 +71,11 @@ Search and pagination are handled on the frontend side, while sorting is done on
 
 You will find a folder called `.github/workflows` at the root level which has two GitHub Actions files. These Actions automatically build the Dockerfile for both the frontend and backend application when a new commit is detected on the `main` branch. The GitHub actions push the newly created Docker images to the [cesaredecal/wookieepedia-full-stack](https://hub.docker.com/repository/docker/cesaredecal/wookieepedia-full-stack) Docker Hub public repository. As a fun fact, the web app is hosted on DigitalOcean using the App Platform Plaform-as-a-Service product that fetches these images and spins up the containers. 
 
-## Tests
+## Run e2e tests
 
-While all types of tests are important, due to the limited time available end-to-end tests are available. PlayWright is the testing library of choice for this project. Find the end-to-end (e2e) tests in `frontend/tests/home.spec.ts`. The tests check that...
+While all types of tests are important, due to the limited time available end-to-end tests are available. PlayWright is the testing library of choice for this project. Find the end-to-end (e2e) tests in `frontend/tests/home.spec.ts`. These are not integration tests (that mock the backend API), but I analyzed the options and considered that end-to-end tests would be the most complete and would test both frontend and backend functionalities at the same time. 
+
+The tests check the following:
 
 * ✅ The header looks as expected (has a title and two tabs: people and planets)
 * ✅ `Luke Skywalker` appears in the first table and that `Gasgano` appears when searching for `gano`
@@ -83,7 +85,7 @@ While all types of tests are important, due to the limited time available end-to
 
 ## Building the Docker image one by one
 
-This step is not necessary because Docker Compose will automatically build and start all the Docker containers for you. However, you can build and run Docker containers one by one if you so decide (useful if you want to try out changes in a single `Dockerfile` file or want to test just the frontend or backend). Let us first navigate to the frontend project:
+This step is not necessary because Docker Compose will automatically build and start all the Docker containers for you. However, you can build and run Docker containers one by one if you so decide (useful if you want to try out changes in a single `Dockerfile` or want to test just the frontend or backend). Let us first navigate to the frontend project:
 
 ```bash
 $ cd frontend
@@ -101,7 +103,7 @@ Once that is done we can run it:
 $ docker run -p 6969:3000 frontend
 ```
 
-Open http://localost:6969 and have fun interacting with Wookieepedia!
+Open http://localhost:6969 and have fun interacting with Wookieepedia!
 
 You can run the following command to see a list of the running containers on your machine:
 
