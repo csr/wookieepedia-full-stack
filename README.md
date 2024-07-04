@@ -73,11 +73,13 @@ You will find a folder called `.github/workflows` at the root level which has tw
 
 ## Tests
 
-While all types of tests are important, due to the limited time available end-to-end tests are available. PlayWright is the testing library of choice for this project. Find the end-to-end (e2e) tests in `frontend/tests/home.spec.ts`. The test checks that...
+While all types of tests are important, due to the limited time available end-to-end tests are available. PlayWright is the testing library of choice for this project. Find the end-to-end (e2e) tests in `frontend/tests/home.spec.ts`. The tests check that...
 
 * ✅ The header looks as expected (has a title and two tabs: people and planets)
 * ✅ `Luke Skywalker` appears in the first table and that `Gasgano` appears when searching for `gano`
 * ✅ `Tatooine` appears in the planet table and that `Felucia` appears when searching for `fe`
+* ✅ Search bar inputs are maintained even after switching between tabs
+* ✅ Sorting works as expected in both tables
 
 ## Building the Docker image one by one
 
