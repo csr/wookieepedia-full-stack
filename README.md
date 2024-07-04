@@ -8,8 +8,8 @@ You can access the [live web app](https://wookieepedia-fullstack-app-grbeu.ondig
 
 | Application  | Description                                                                                                                                                                                                                                         | Application Port | Docker Compose Port |
 |--------------|-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|------------------|----------------------|
-| Frontend app | React application written in TypeScript. It features two tables (🤖 _people_ and 🪐 _planets_). It uses Axios to make HTTP REST API requests and React Query to manage and cache the API responses.                                                | 3000             | 6969                 |
-| Backend app  | Micronaut application written in Java. It serves endpoints that return the columns and data of the _people_ and _planets_ tables. It uses data from [Swapi](https://swapi.dev/), a Star Wars API.                                                   | 8080             | 8080                 |
+| Frontend app | React application written in TypeScript. It features two tables (🤖 _people_ and 🪐 _planets_). It uses Axios to make HTTP REST API requests and React Query to manage and cache the API responses.                                                | `3000` (the Docker image exposes port `80`)             | `6969`                 |
+| Backend app  | Micronaut application written in Java. It serves endpoints that return the columns and data of the _people_ and _planets_ tables. It uses data from [Swapi](https://swapi.dev/), a Star Wars API.                                                   | `8080`             | `8080`                 |
 
 ## Project structure
 
