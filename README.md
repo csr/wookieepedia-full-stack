@@ -6,10 +6,10 @@ Wookieepedia! is a full-stack project for Star Wars fans and it consists of two 
 
 You can access the [live web app](https://wookieepedia-fullstack-app-grbeu.ondigitalocean.app/) or run it locally on your computer using Docker (instructions below).
 
-| Application     | Description                                  | Application Port | Docker Compose Port |
-|-----------------|----------------------------------------------|------------------|----------------------|
-| Frontend app    | React application written in TypeScript. It features two tables (🤖 _people_ and 🪐 _planets_). It uses axios to make HTTP REST API requests and React Query to manage and cache the API responses. | 3000             | 6969                 |
-| Backend app     | Micronaut application written in Java. It serves endpoints that return the columns and data of the _people_ and _planets_ tables. It uses data from [swapi](https://swapi.dev/), a Star Wars API.  | 8080             | 8080                 |
+| Application  | Description                                                                                                                                                                                                                                         | Application Port | Docker Compose Port |
+|--------------|-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|------------------|----------------------|
+| Frontend app | React application written in TypeScript. It features two tables (🤖 _people_ and 🪐 _planets_). It uses Axios to make HTTP REST API requests and React Query to manage and cache the API responses.                                                | 3000             | 6969                 |
+| Backend app  | Micronaut application written in Java. It serves endpoints that return the columns and data of the _people_ and _planets_ tables. It uses data from [Swapi](https://swapi.dev/), a Star Wars API.                                                   | 8080             | 8080                 |
 
 ## Project structure
 
@@ -69,12 +69,21 @@ Search and pagination are handled on the frontend side, while sorting is done on
 
 ## REST API
 
+The backend app exposes a simple REST API:
+
 | Method | Endpoint          | Description                                                      |
 |--------|-------------------|------------------------------------------------------------------|
 | GET    | /api/v1/people/columns   | Fetches the column information for the people table.             |
 | GET    | /api/v1/people/data      | Retrieves the data for the people table with optional sorting.   |
 | GET    | /api/v1/planets/columns  | Fetches the column information for the planets table.            |
 | GET    | /api/v1/planets/data     | Retrieves the data for the planets table with optional sorting.  |
+
+The data endpoints support the following query parameters:
+
+| Query Parameter | Description                                           | Example Values     |
+|-----------------|-------------------------------------------------------|--------------------|
+| sortBy          | Specifies the field by which the data should be sorted. | `name`, `created` |
+| sortOrder       | Specifies the order of the sorting: ascending or descending. | `asc` (ascending), `desc` (descending) |
 
 ## CI/CD
 
