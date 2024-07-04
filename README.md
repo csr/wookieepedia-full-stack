@@ -67,6 +67,15 @@ However, there are some downsides:
 
 Search and pagination are handled on the frontend side, while sorting is done on the backend as per requirement. A client-side search is pretty fast providing a good UX. The pagination is done on the frontend because it's easier and more straightforward to set up on the frontend (no nee to sync the UI state with the backend state), but in the future we can explore ways for the backend to provide pagination (especially if the dataset grows in size!). The frontend app is also designed to be responsive and work well on mobile devices (I hope!).
 
+## REST API
+
+| Method | Endpoint          | Description                                                      |
+|--------|-------------------|------------------------------------------------------------------|
+| GET    | /api/v1/people/columns   | Fetches the column information for the people table.             |
+| GET    | /api/v1/people/data      | Retrieves the data for the people table with optional sorting.   |
+| GET    | /api/v1/planets/columns  | Fetches the column information for the planets table.            |
+| GET    | /api/v1/planets/data     | Retrieves the data for the planets table with optional sorting.  |
+
 ## CI/CD
 
 You will find a folder called `.github/workflows` at the root level which has two GitHub Actions files. These Actions automatically build the Dockerfile for both the frontend and backend application when a new commit is detected on the `main` branch. The GitHub actions push the newly created Docker images to the [cesaredecal/wookieepedia-full-stack](https://hub.docker.com/repository/docker/cesaredecal/wookieepedia-full-stack) Docker Hub public repository. As a fun fact, the web app is hosted on DigitalOcean using the App Platform Plaform-as-a-Service product that fetches these images and spins up the containers. 
@@ -127,6 +136,7 @@ This full-stack app was built in just a few days and there is plenty to improve 
 * Testing it with a real user: we should conduct an interview with a Star Wars fun to see what they think about the app and if they find it easy to use.
 * The pagination could be implemented on the backend side to help reduce the amount of data transfered. In this case the list of people and planets is quite small but bigger datasets may benefit from a pagination implemented on the backend, although that increases the number of requests the frontend needs to make (if the user decides to navigate to a different page).
 * Improve testing coverage by writing unit tests, integration tests and end-to-end tests.
+* Expose a `/status` or `/health` endpoint so that the platform solution (e.g. Kubernetes) knows when the application can be considered to be "ready". In the `/status` endpoint we would check if the `people_data` and `planets_data` JSON files are already available. If yes, we're good to go and the application is ready to start receiving requests. This is to avoid the state of the backend app being up but it still hasn't finished download the data from the backend. Kubernetes makes this easy to do.
 
 ## Got feedback?
 
