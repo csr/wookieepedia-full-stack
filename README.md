@@ -65,7 +65,7 @@ However, there are some downsides:
 
 ## Frontend design considerations
 
-Search and pagination are handled on the frontend side, while sorting is done on the backend as per requirement. A client-side search is pretty fast providing a good UX. The pagination is done on the frontend because it's easier and more straightforward to set up on the frontend (no nee to sync the UI state with the backend state), but in the future we can explore ways for the backend to provide pagination (especially if the dataset grows in size!). The frontend app is also designed to be responsive and work well on mobile devices (I hope!).
+Search and pagination are handled on the frontend side, while sorting is done on the backend as per requirement. A client-side search is pretty fast providing a good UX. The pagination is done on the frontend because it's easier and more straightforward to set up on the frontend (no need to sync the UI state with the backend state), but in the future we can explore ways for the backend to provide pagination (especially if the dataset grows in size!). The frontend app is also designed to be responsive and work well on mobile devices (I hope!).
 
 ## REST API
 
@@ -133,7 +133,7 @@ $ docker build -t frontend .
 Once that is done we can run it:
 
 ```bash
-$ docker run -p 6969:3000 frontend
+$ docker run -p 6969:80 frontend
 ```
 
 Open http://localhost:6969 and have fun interacting with Wookieepedia!
