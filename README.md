@@ -111,7 +111,7 @@ $ npm run test:e2e
 `node` must be installed on your computer for this to work, including the Playwright browser executables. The browsers can be installed with the following command:
 
 ```bash
-npx playwright install
+$ npx playwright install
 ```
 
 In the feature running the e2e tests can be moved to the pipeline. Setting the appropriate environment variables will be required for that to work correctly.
