@@ -19,7 +19,7 @@ COPY . .
 RUN ./gradlew build --no-daemon
 
 # Create the native image
-RUN native-image --no-fallback -H:Name=wookieepedia -cp build/libs/wookieepedia-0.1-all.jar
+RUN native-image --no-fallback -H:Name=wookieepedia -H:Class=com.cesaredecal.Application -cp build/libs/wookieepedia-0.1-all.jar
 
 # Stage 2: Create the final lightweight image
 FROM debian:buster-slim
