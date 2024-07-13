@@ -4,7 +4,6 @@ plugins {
     id("com.github.johnrengelman.shadow") version "8.1.1"
     id("io.micronaut.application") version "4.4.0"
     id("io.micronaut.aot") version "4.4.0"
-    id("org.graalvm.buildtools.native") version "0.9.8"
 }
 
 version = "0.1"
@@ -68,6 +67,5 @@ micronaut {
         replaceLogbackXml = true
     }
 }
-
 
 
