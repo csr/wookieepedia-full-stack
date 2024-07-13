@@ -1,22 +1,15 @@
 package com.cesaredecal.starwarsapi;
 
 import com.cesaredecal.starwarsapi.models.DataType;
-import com.cesaredecal.starwarsapi.models.PeopleResponse;
-import com.cesaredecal.starwarsapi.models.PlanetsResponse;
 import io.micronaut.context.event.StartupEvent;
 import io.micronaut.core.type.Argument;
 import io.micronaut.runtime.event.annotation.EventListener;
 import io.micronaut.serde.ObjectMapper;
 import reactor.core.publisher.Mono;
-
 import jakarta.inject.Singleton;
-
 import javax.inject.Inject;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
-import java.util.List;
+import java.util.*;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -25,82 +18,46 @@ public class StarWarsService {
 
     private static final Logger LOGGER = Logger.getLogger(StarWarsService.class.getName());
 
-    private final StarWarsClient starWarsClient;
     private final JsonFileService jsonFileService;
     private final ObjectMapper objectMapper;
+    private final Map<DataType, DataService<?>> dataServices;
 
     @Inject
-    public StarWarsService(StarWarsClient starWarsClient, JsonFileService jsonFileService, ObjectMapper objectMapper) {
-        this.starWarsClient = starWarsClient;
+    public StarWarsService(JsonFileService jsonFileService, ObjectMapper objectMapper, PeopleService peopleService, PlanetsService planetsService) {
         this.jsonFileService = jsonFileService;
         this.objectMapper = objectMapper;
+        this.dataServices = new HashMap<>();
+        this.dataServices.put(DataType.PEOPLE, peopleService);
+        this.dataServices.put(DataType.PLANETS, planetsService);
     }
-
-    // Lifecycle events
 
     @EventListener
     void init(StartupEvent event) {
-        // The application fetches all the data from the Star Wars API at startup time and saves it to the disk
         fetchTableDataAndSaveJson(DataType.PEOPLE);
         fetchTableDataAndSaveJson(DataType.PLANETS);
     }
 
-    // Write operations
-
-    private Mono<List<PeopleResponse.Person>> fetchAllPeople(int page, List<PeopleResponse.Person> accumulatedResults) {
-        LOGGER.log(Level.INFO, "Fetching all people of page: {0}", page);
-
-        return starWarsClient.fetchPeople(page)
-                .flatMap(response -> {
-                    accumulatedResults.addAll(response.getResults());
-                    if (response.getNext() != null) {
-                        return fetchAllPeople(page + 1, accumulatedResults);
-                    } else {
-                        LOGGER.log(Level.INFO, "Fetched people count: {0}", accumulatedResults.size());
-                        return Mono.just(accumulatedResults);
-                    }
-                });
-    }
-
-    private Mono<List<PlanetsResponse.Planet>> fetchAllPlanets(int page, List<PlanetsResponse.Planet> accumulatedResults) {
-        LOGGER.log(Level.INFO, "Fetching all planets of page: {0}", page);
-
-        return starWarsClient.fetchPlanets(page)
-                .flatMap(response -> {
-                    accumulatedResults.addAll(response.getResults());
-                    if (response.getNext() != null) {
-                        return fetchAllPlanets(page + 1, accumulatedResults);
-                    } else {
-                        LOGGER.log(Level.INFO, "Fetched planets count: {0}", accumulatedResults.size());
-                        return Mono.just(accumulatedResults);
-                    }
-                });
-    }
-
     public void fetchTableDataAndSaveJson(DataType dataType) {
         String fileName = dataType.getDataFileName();
+        DataService<?> dataService = dataServices.get(dataType);
 
-        switch (dataType) {
-            case PEOPLE:
-                fetchAllPeople(1, new ArrayList<>())
-                        .subscribe(results -> jsonFileService.writeToJsonFile(results, fileName));
-                break;
-            case PLANETS:
-                fetchAllPlanets(1, new ArrayList<>())
-                        .subscribe(results -> jsonFileService.writeToJsonFile(results, fileName));
-                break;
-            default:
-                throw new IllegalArgumentException("Unsupported data type: " + dataType);
+        if (dataService == null) {
+            throw new IllegalArgumentException("Unsupported data type: " + dataType);
         }
-    }
 
-    // Read operations
+        dataService.fetchAll(1, new ArrayList<>())
+                .subscribe(
+                        results -> jsonFileService.writeToJsonFile(results, fileName),
+                        error -> LOGGER.log(Level.SEVERE, "Error fetching " + dataType + " data", error)
+                );
+    }
 
     public Mono<String> fetchColumns(DataType dataType) {
         try {
             String fileName = dataType.getColumnsFileName();
             return Mono.just(jsonFileService.readJsonFile(fileName));
         } catch (IOException e) {
+            LOGGER.log(Level.SEVERE, "Error fetching columns data for " + dataType, e);
             return Mono.error(new RuntimeException("Error fetching columns data for " + dataType, e));
         }
     }
@@ -110,14 +67,14 @@ public class StarWarsService {
             String fileName = dataType.getDataFileName();
             String jsonContent = jsonFileService.readJsonFile(fileName);
 
-            // Exit early if no sorting is needed
             if ((sortBy == null || sortBy.isEmpty()) || (sortOrder == null || sortOrder.isEmpty())) {
                 return Mono.just(jsonContent);
             }
 
             Class<T> type = (Class<T>) dataType.getType();
             List<T> data = objectMapper.readValue(jsonContent, Argument.listOf(type));
-            Comparator<T> comparator = getComparator(dataType, sortBy);
+            DataService<T> dataService = (DataService<T>) dataServices.get(dataType);
+            Comparator<T> comparator = dataService.getComparator(sortBy);
 
             if ("desc".equalsIgnoreCase(sortOrder)) {
                 comparator = comparator.reversed();
@@ -127,36 +84,8 @@ public class StarWarsService {
 
             return Mono.just(objectMapper.writeValueAsString(data));
         } catch (IOException e) {
+            LOGGER.log(Level.SEVERE, "Error fetching table data for " + dataType, e);
             return Mono.error(new RuntimeException("Error fetching table data for " + dataType, e));
-        }
-    }
-
-    private <T> Comparator<T> getComparator(DataType dataType, String sortBy) {
-        switch (dataType) {
-            case PEOPLE:
-                return (Comparator<T>) getPeopleComparator(sortBy);
-            case PLANETS:
-                return (Comparator<T>) getPlanetsComparator(sortBy);
-            default:
-                throw new IllegalArgumentException("Unsupported data type: " + dataType);
-        }
-    }
-
-    private Comparator<PeopleResponse.Person> getPeopleComparator(String sortBy) {
-        switch (sortBy) {
-            case "created":
-                return Comparator.comparing(PeopleResponse.Person::getCreated);
-            default:
-                return Comparator.comparing(PeopleResponse.Person::getName);
-        }
-    }
-
-    private Comparator<PlanetsResponse.Planet> getPlanetsComparator(String sortBy) {
-        switch (sortBy) {
-            case "created":
-                return Comparator.comparing(PlanetsResponse.Planet::getCreated);
-            default:
-                return Comparator.comparing(PlanetsResponse.Planet::getName);
         }
     }
 }

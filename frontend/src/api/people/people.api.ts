@@ -44,7 +44,7 @@ export const usePeopleColumns = (): UseQueryResult<PeopleColumns[], Error> => {
 
 export const usePeopleData = (searchTerm?: string, sortingParameters?: SortParameters): UseQueryResult<Person[], Error> => {
     return useQuery<Person[], Error>({
-        queryKey: ['people-data', searchTerm, sortingParameters],
+        queryKey: ['people-data', sortingParameters],
         queryFn: (context) => fetchData({ ...context }, sortingParameters),
         select: (data: Person[]) => {
             if (!searchTerm) {

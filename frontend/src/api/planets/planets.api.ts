@@ -44,7 +44,7 @@ export const usePlanetsColumns = (): UseQueryResult<PlanetColumns[], Error> => {
 
 export const usePlanetsData = (searchTerm?: string, sortingParameters?: SortParameters): UseQueryResult<Planet[], Error> => {
     return useQuery<Planet[], Error>({
-        queryKey: ['planets-data', searchTerm, sortingParameters],
+        queryKey: ['planets-data', sortingParameters],
         queryFn: (context) => fetchData({ ...context }, sortingParameters),
         select: (data: Planet[]) => {
             if (!searchTerm) {
