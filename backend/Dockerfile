@@ -1,4 +1,5 @@
-FROM openjdk:17-jdk-alpine
+# Stage 1: Build the native executable using GraalVM
+FROM ghcr.io/graalvm/native-image:latest as build
 
 WORKDIR /backend-app
 
@@ -15,6 +16,19 @@ COPY . .
 
 RUN ./gradlew build --no-daemon
 
+# Create the native image
+RUN native-image --no-fallback -H:Name=wookieepedia -cp build/libs/wookieepedia-0.1-all.jar
+
+# Stage 2: Create the final lightweight image
+FROM debian:buster-slim
+
+WORKDIR /backend-app
+
+# Copy the native executable from the build stage
+COPY --from=build /backend-app/wookieepedia /backend-app/wookieepedia
+
+# Expose the application port
 EXPOSE 8080
 
-CMD ["java", "-jar", "build/libs/wookieepedia-0.1-all.jar"]
+# Set the entry point to the native executable
+ENTRYPOINT ["/backend-app/wookieepedia"]
