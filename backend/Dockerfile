@@ -3,6 +3,8 @@ FROM ghcr.io/graalvm/native-image:latest as build
 
 WORKDIR /backend-app
 
+RUN microdnf install findutils
+
 # Copy the build.gradle, settings.gradle, and gradle.properties files first
 # This step helps leverage Docker's caching mechanism
 COPY build.gradle settings.gradle gradle.properties ./
